@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    Seleccion de acuses
+{% endblock title %}
+
+{% block estilo %}
+    <link rel="stylesheet" type="text/css" href='{% static "css/multi-select.css" %}'>
+    <script type="text/javascript" src ='{% static "js/jquery.multi-select.js" %}'></script>
+    <script type="text/javascript">
+        $('#id_acuses').multiSelect();
+    </script>
+{% endblock estilo %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <a href='{% url "directorio:milista_dir" %}'>Mi lista</a>
+    </div>
+</div>
+<div style="font-size: 18px;">
+    <form action="" method="POST">
+        {% csrf_token %}
+        <select multiple="multiple" name="acuses" id="id_acuses">
+            {% for persona in instancias %}
+                <option value="persona.id">{{persona.profesion}}{{persona.nombre}}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Crear Acuses">
+    </form>
+</div>
+{% endblock content %}

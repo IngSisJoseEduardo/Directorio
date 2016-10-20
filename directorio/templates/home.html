@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Directorio{% endblock title %}
+
+{% block content %}
+        <h4>Directorio Completo</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Buscar" name="q" value="{{request.GET.q}}">
+                </div>
+                <button type="submit" class="btn btn-default">Buscar</button>
+                <a href='{% url "directorio:home" %}' class="btn btn-default bt-md">Lista completa</a>
+             </form>
+        </div>
+        <div class="col-md-6">
+            <ul class="nav nav-pills">
+              <li role="presentation"><a href='{% url "directorio:crear_lista_general" %}'>Lista completa</a></li>
+              <li role="presentation"><a href='{% url "directorio:acuses_generales" %}'>Acuses autorizados</a></li>
+              <li role="presentation"><a href='{% url "directorio:acuses_dir" %}'>Seleccionar acuses autorizados</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" id="table-list" style="overflow: hidden;overflow-y: auto;">
+            <table class="table table-hover" >
+                <thead>
+                    <tr>
+                        <th>Prof.</th>
+                        <th>Nombre</th>
+                        {# <th>Aut.</th> #}
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for persona in directorio %}
+                        {% if persona.status == "2" %}
+                            <tr class="success">
+                        {% else %}
+                            {% if persona.status == "3" %}
+                                <tr class="info">
+                            {% else %}
+                                <tr>
+                            {% endif %}
+                        {% endif %}
+                            {# <td >{{persona.id}}</td> #}
+                            <td >{{persona.profesion}}</td>
+                            <td >{{persona.nombre}}</td>
+                            {# <td><input type="checkbox" name="aut" id=""></td> #}
+                            <td ><label><a href='javascript:detalle("{% url "directorio:detail_dir" persona.id %}");' id="link-detalle" class="btn btn-default btn-sm">Detalles</a></label>
+                            {% if persona.status != "1" %}
+                                <label><a href='{% url "directorio:doc" persona.id %}' class="btn btn-info btn-sm">Acuse</a></label></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {# contenedor donde se mostrara el detalle  #}
+        <div class="col-md-6" style="overflow: hidden; overflow-y: auto;" id="preview-detalle">
+            
+        </div>
+    </div>
+{% endblock content %} 

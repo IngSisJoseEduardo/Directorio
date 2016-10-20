@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Confirmar
+{% endblock title %}
+
+{% block content %}
+    <h2>¿Realmente desea eliminar a esta Persona?</h2>
+    <p>{{persona.profesion}}{{persona.nombre}}</p>
+    <p>{{persona.cargo | linebreaks}}</p>
+    <p>{{persona.direccion|linebreaks}}</p>
+    <a href='{{persona.get_detail_path}}'>Cancelar</a><a href='{% url "directorio:delete_dir" persona.id %}'>Eliminar</a>
+{% endblock content %}

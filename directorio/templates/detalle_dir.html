@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-2">
+        <a href='{% url "directorio:edit_dir" persona.id %}' class="btn btn-primary btn-md">Editar</a>
+    </div>
+    {% if persona.status != "1" %}
+    <div class="col-md-2">
+        <a href='{% url "directorio:doc" persona.id%}' class="btn btn-info bn-md">Acuse</a>
+    </div>
+    {% endif %}
+    <div class="col-md-2">
+        <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn btn-danger btn-md">Eliminar</a>
+    </div>
+    <div class="col-md-12" style="text-align:center; font-size: 12px;">
+        <h1 align="center">{{persona.profesion}}{{persona.nombre}}</h1>
+        <div class="row">
+            <div class="col-md-12" style="font-size:14px;">
+                <table class="table table-hover" style="text-align:left;">
+                        <tr>
+                            <th>Cargo:</th><td>{{persona.cargo | linebreaks}}</td>
+                        </tr>
+                        <tr>
+                            <th>Direccion:</th><td>{{persona.direccion |linebreaks}}</td>
+                        </tr>
+                        <tr>
+                            <th>Telefono:</th><td>{{persona.telefono}}</td>
+                        </tr> 
+                        <tr>
+                            <th>Esposa(o):</th><td>{{persona.pareja}}</td>
+                        </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>    
+{% endblock content %}
