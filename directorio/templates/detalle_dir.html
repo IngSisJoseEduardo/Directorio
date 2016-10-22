@@ -1,8 +1,9 @@
-{% extends "base.html" %}
+{# {% extends "base.html" %} #}
 
-{% block title %}{{title}}{% endblock title %}
+{# {% block title %}{{title}}{% endblock title %} #}
 
 {% block content %}
+{{request.path}}
 <div class="row">
     <div class="col-md-2">
         <a href='{% url "directorio:edit_dir" persona.id %}' class="btn btn-primary btn-md">Editar</a>
@@ -32,6 +33,14 @@
                         <tr>
                             <th>Esposa(o):</th><td>{{persona.pareja}}</td>
                         </tr>
+                        <tr>
+                            <th>Pertenece a:</th><td>{{user}}</td>
+                        </tr>
+                        {% if persona.modificado %}
+                            <tr>
+                                <th>Modifiado por:</th><td>{{persona.modificado}}</td>
+                            </tr>
+                        {% endif %}
                 </table>
             </div>
         </div>

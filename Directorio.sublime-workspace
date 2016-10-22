@@ -1,0 +1,600 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"bac",
+				"background-color"
+			],
+			[
+				"ins",
+				"instancias〔variable〕"
+			],
+			[
+				"user",
+				"user_id"
+			],
+			[
+				"fi",
+				"filter"
+			],
+			[
+				"op",
+				"option\tTag"
+			],
+			[
+				"reque",
+				"request.user"
+			],
+			[
+				"fc",
+				"fchoice\tChoiceField (fchoice)"
+			],
+			[
+				"form",
+				"forms〔module〕"
+			],
+			[
+				"AUT",
+				"AUTH_USER_MODEL"
+			],
+			[
+				"peros",
+				"persona.status"
+			],
+			[
+				"if",
+				"if\tif"
+			],
+			[
+				"add",
+				"add_page_break"
+			],
+			[
+				"crea",
+				"crear_mis_acuses〔module〕"
+			],
+			[
+				"mi",
+				"mis_acuses"
+			],
+			[
+				"instan",
+				"instancias〔variable〕"
+			],
+			[
+				"stat",
+				"status__exact"
+			],
+			[
+				"ro",
+				"row〔variable〕"
+			],
+			[
+				"auto",
+				"autofit"
+			],
+			[
+				"perso",
+				"persona.status"
+			],
+			[
+				"pers",
+				"persona.id"
+			],
+			[
+				"per",
+				"persona.status"
+			],
+			[
+				"persona",
+				"persona.status"
+			],
+			[
+				"get",
+				"get_object_or_404〔module〕"
+			],
+			[
+				"for",
+				"for\tFor Loop"
+			],
+			[
+				"lis",
+				"lista〔variable〕"
+			],
+			[
+				"nombre",
+				"nombre__icontains"
+			],
+			[
+				"que",
+				"query"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"ma",
+				"max-height"
+			],
+			[
+				"tet",
+				"text-align: 〔property〕"
+			],
+			[
+				"str",
+				"strpareja〔variable〕"
+			],
+			[
+				"p1",
+				"p1〔variable〕"
+			],
+			[
+				"wid",
+				"width: 〔property〕"
+			],
+			[
+				"ac",
+				"action\tAttr"
+			],
+			[
+				"fn",
+				"font-size: 〔property〕"
+			],
+			[
+				"fon",
+				"font-size: 〔property〕"
+			],
+			[
+				"ta",
+				"table\tTag"
+			],
+			[
+				"persoa",
+				"persona.nombre"
+			],
+			[
+				"cl",
+				"click〔function〕"
+			],
+			[
+				"au",
+				"auto"
+			],
+			[
+				"over",
+				"overflow-y: 〔property〕"
+			],
+			[
+				"he",
+				"hidden〔value〕"
+			],
+			[
+				"hi",
+				"hidden〔value〕"
+			],
+			[
+				"al",
+				"alto"
+			],
+			[
+				"alert",
+				"alert〔function〕"
+			],
+			[
+				"wi",
+				"width: 〔property〕"
+			],
+			[
+				"get_",
+				"get_object_or_404"
+			],
+			[
+				"p4",
+				"p4Format〔variable〕"
+			],
+			[
+				"spa",
+				"space_before"
+			],
+			[
+				"sp",
+				"space_after"
+			],
+			[
+				"spe",
+				"space_before"
+			],
+			[
+				"add_",
+				"add_run"
+			],
+			[
+				"te",
+				"text"
+			],
+			[
+				"pa",
+				"parrafo_formato〔variable〕"
+			],
+			[
+				"para",
+				"paragraph_format"
+			],
+			[
+				"ur",
+				"url〔module〕"
+			],
+			[
+				"con",
+				"contexto〔variable〕"
+			],
+			[
+				"m",
+				"mi_lista"
+			],
+			[
+				"cont",
+				"contexto"
+			],
+			[
+				"mil",
+				"milista_dir"
+			],
+			[
+				"dele",
+				"delete_directorio〔module〕"
+			],
+			[
+				"confir",
+				"confirm_delete_directorio〔module〕"
+			],
+			[
+				"in",
+				"instancias"
+			],
+			[
+				"sta",
+				"status_opcion〔variable〕"
+			],
+			[
+				"di",
+				"directorio〔module〕"
+			],
+			[
+				"reu",
+				"request〔argument〕"
+			],
+			[
+				"djna",
+				"django.contrib.auth"
+			],
+			[
+				"sam",
+				"small\tTag"
+			],
+			[
+				"reg",
+				"register_view〔module〕"
+			],
+			[
+				"lo",
+				"logout_view〔module〕"
+			],
+			[
+				"name",
+				"namespace"
+			],
+			[
+				"use",
+				"user〔variable〕"
+			],
+			[
+				"is",
+				"is_valid"
+			],
+			[
+				"pass",
+				"password"
+			],
+			[
+				"clean",
+				"cleaned_data"
+			],
+			[
+				"em",
+				"email"
+			],
+			[
+				"ema",
+				"email"
+			],
+			[
+				"email",
+				"email2"
+			],
+			[
+				"pas",
+				"password2〔variable〕"
+			],
+			[
+				"pr",
+				"print〔keyword〕"
+			],
+			[
+				"clea",
+				"cleaned_data"
+			],
+			[
+				"User",
+				"UserRegisterForm〔module〕"
+			],
+			[
+				"re",
+				"request〔argument〕"
+			],
+			[
+				"prin",
+				"print〔function〕"
+			],
+			[
+				"sel",
+				"self〔argument〕"
+			],
+			[
+				"Use",
+				"UserLoginForm〔class〕"
+			],
+			[
+				"su",
+				"super〔class〕"
+			],
+			[
+				"w",
+				"widget"
+			],
+			[
+				"fo",
+				"form"
+			],
+			[
+				"Model",
+				"ModelForm\tModelForm"
+			],
+			[
+				"url",
+				"urlpatterns〔variable〕"
+			],
+			[
+				"set",
+				"settings〔module〕"
+			],
+			[
+				"PASWORD",
+				"PASSWORD"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 372.0,
+		"last_filter": "Package Control: ",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 435.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/var/www/app/aplicacion/static/css/style.css",
+		"/var/www/app/aplicacion/directorio/templates/home.html",
+		"/var/www/app/aplicacion/directorio/templates/multiple_acuses.html",
+		"/var/www/app/aplicacion/static/js/aplicacion.js",
+		"/var/www/app/aplicacion/directorio/views.py",
+		"/var/www/app/aplicacion/directorio/forms.py",
+		"/var/www/app/aplicacion/directorio/models.py",
+		"/var/www/app/aplicacion/db.sqlite3",
+		"/var/www/app/dirapp/dirapp/settings.py",
+		"/var/www/app/dirapp/dirapp/urls.py",
+		"/var/www/app/dirapp/accounts/views.py",
+		"/var/www/app/dirapp/directorio/models.py",
+		"/var/www/app/dirapp/directorio/views.py",
+		"/var/www/app/aplicacion/directorio/migrations/0001_initial.py",
+		"/var/www/app/aplicacion/directorio/urls.py",
+		"/var/www/app/aplicacion/directorio/templates/form_dir.html",
+		"/var/www/app/aplicacion/directorio/templates/milista.html",
+		"/var/www/app/aplicacion/directorio/templates/detalle_dir.html",
+		"/home/acer/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/acer/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/var/www/app/aplicacion/static/css/multi-select.css",
+		"/var/www/app/aplicacion/templates/base.html",
+		"/var/www/app/aplicacion/directorio/templates/confirm_delete.html",
+		"/var/www/app/aplicacion/accounts/views.py",
+		"/var/www/app/directorio2016/directorio2016/wsgi.py",
+		"/var/www/app/directorio2016/directorio/views.py",
+		"/var/www/app/directorio2016/accounts/__init__.py",
+		"/var/www/app/directorio2016/directorio2016/__init__.py",
+		"/var/www/app/directorio2016/directorio/__init__.py",
+		"/var/www/app/directorio2016/directorio2016/settings.py",
+		"/var/www/app/directorio2016/accounts/views.py",
+		"/var/www/app/directorio2016/manage.py",
+		"/var/www/app/aplicacion/manage.py",
+		"/var/www/app/aplicacion/aplicacion/wsgi.py",
+		"/var/www/app/aplicacion/aplicacion/settings.py",
+		"/var/www/app/aplicacion/aplicacion/urls.py",
+		"/var/www/app/directorio2016/accounts/forms.py",
+		"/home/acer/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/var/www/app/directorio2016/accounts/templates/form.html",
+		"/var/www/app/directorio2016/directorio/templates/index.html",
+		"/var/www/app/directorio2016/directorio/templates/segunda.html",
+		"/var/www/app/directorio2016/templates/base.html",
+		"/var/www/app/directorio2016/directorio2016/urls.py",
+		"/var/www/app/directorio2016/accounts/urls.py",
+		"/var/www/app/directorio2016/login/forms.py",
+		"/var/www/app/directorio2016/login/views.py",
+		"/var/www/app/directorio2016/login/templates/login.html",
+		"/var/www/app/directorio2016/login/urls.py",
+		"/var/www/app/directorio2016/login/templates/index_login.html",
+		"/var/www/app/directorio2016/login/templates/index.html",
+		"/media/acer/6A78AF6978AF32AD/Documents and Settings/Acer/Django/django1.9/trydjango1.9/Blog/Blog/settings.py",
+		"/var/www/app/directorio2016/directorio/urls.py",
+		"/media/acer/6A78AF6978AF32AD/Documents and Settings/Acer/Django/django1.9/trydjango1.9/Blog/Blog/urls.py",
+		"/var/www/app/hellosysterminal/hellosysterminal/settings.py",
+		"/var/www/env/hellosysterminal/hellosysterminal/settings.py"
+	],
+	"find":
+	{
+		"height": 28.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"font-size"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 28.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 52.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"/home/directorio/directorio.sublime-workspace"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 251.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

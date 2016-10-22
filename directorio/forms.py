@@ -4,6 +4,7 @@ from directorio.models import Directorio
 class DirectorioForm(forms.ModelForm):
     profesion = forms.CharField(max_length=150,label='Profesión',required=False)
     pareja = forms.CharField(max_length=150,label='Esposa(o)',required=False)
+    # opciones para el select de status
     status_opcion = (
         ('1','No Autorizado'),
         ('2','Autorizado'),

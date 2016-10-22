@@ -2,29 +2,40 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %}
 
+{# titulo de la pagina #}
 {% block title %}
     Seleccion de acuses
 {% endblock title %}
 
-{% block estilo %}
+{# bloque para agregrar referencias #}
+{% block ligas %}
     <link rel="stylesheet" type="text/css" href='{% static "css/multi-select.css" %}'>
     <script type="text/javascript" src ='{% static "js/jquery.multi-select.js" %}'></script>
-    <script type="text/javascript">
-        $('#id_acuses').multiSelect();
-    </script>
-{% endblock estilo %}
+{% endblock ligas %}
+
+{# bloque para agregar scripts #}
+{% block miscript %}
+
+{% endblock miscript %}
+
+{# bloque de contenido html #}
 {% block content %}
 <div class="row">
     <div class="col-md-12">
+    {% if invocador == "directorio" %}
+        <a href='{% url "directorio:seleccion_gral_dir" %}'>Directorio</a>
+    {% else %}
         <a href='{% url "directorio:milista_dir" %}'>Mi lista</a>
+    {% endif %}
     </div>
 </div>
 <div style="font-size: 18px;">
+    {{mensaje}}
     <form action="" method="POST">
         {% csrf_token %}
-        <select multiple="multiple" name="acuses" id="id_acuses">
+        <select multiple="multiple" id="id_acuses" name="acuses" required="required">
             {% for persona in instancias %}
-                <option value="persona.id">{{persona.profesion}}{{persona.nombre}}</option>
+                <option value="{{persona.id}}">{{persona.profesion}} {{persona.nombre}}</option>
             {% endfor %}
         </select>
         <input type="submit" value="Crear Acuses">

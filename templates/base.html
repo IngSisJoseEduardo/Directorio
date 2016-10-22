@@ -11,10 +11,21 @@
     <script type="text/javascript" src='{% static "js/jquery-3.1.0.min.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.min.js" %}'></script>
     <script type="text/javascript" src = '{% static "js/aplicacion.js" %}'></script>
-
-    {% block estilo %}
+    
+    {% block ligas %}
       
-    {% endblock estilo %}
+    {% endblock ligas %}
+
+    <style type="text/css">
+      {% block estilo %}
+        
+      {% endblock estilo %}
+    </style>
+    <script type="text/javascript">
+      {% block miscript %}
+        
+      {% endblock miscript %}
+    </script>
 </head>
 <body>
     <div class="container-fluid">

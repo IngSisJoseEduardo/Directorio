@@ -57,27 +57,68 @@ def milista_dir(request):
     }
     return render(request,'milista.html',contexto)
 
-def seleccionar_acuses(request):
+def seleccionar_acuses_mi_lista(request):
     instancias = Directorio.objects.filter(user_id__exact = request.user.id).exclude(status__exact=1)
-    # form = Acuses(request.POST or None)
 
-    # if form.is_valid():
-    #     acuses = request.POST.getlist("acuses")
-    #     document = Document()
+    mensaje = "Selecciona los acuses de tu lista"
 
-    #     for x in acuses:
-    #         print(x)
-    #         persona = get_object_or_404(Directorio, id= x)
-    #         acuse(document,persona)
-    #         document.add_page_break()
+    invocador = "milista"
 
-    #     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    #     response['Content-Disposition'] = 'attachment; filename=acuses.docx'
-    #     document.save(response)
+    if request.POST:
+        acuses = request.POST.getlist("acuses")
+        document = Document()
 
-    #     return response
+        for x in acuses:
+            print(x)
+            persona = get_object_or_404(Directorio, id= x)
+            acuse(document,persona)
+            document.add_page_break()
 
-    return render(request,"multiple_acuses.html",{"instancias":instancias})
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
+        document.save(response)
+
+        return response
+
+    contexto = {
+        "instancias" : instancias,
+        "mensaje" : mensaje,
+        "invocador" : invocador
+    }
+    return render(request,"multiple_acuses.html",contexto)
+
+def seleccionar_acuses_directorio(request):
+    instancias = Directorio.objects.all().exclude(status__exact = 1)
+
+    mensaje = "Aqui seleccionas los acuses del directorio general"
+
+    invocador = "directorio"
+
+    if request.POST:
+        acuses = request.POST.getlist("acuses")
+
+        document = Document()
+
+        for x in acuses:
+            print(x)
+            persona = get_object_or_404(Directorio, id= x)
+            acuse(document,persona)
+            document.add_page_break()
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
+        document.save(response)
+
+        return response
+
+
+    contexto = {
+        "instancias" : instancias,
+        "mensaje"   : mensaje,
+        "invocador" : invocador
+    }
+
+    return render(request,"multiple_acuses.html",contexto)
 
 @login_required
 def edit_directorio(request, id = None):
