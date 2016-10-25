@@ -7,8 +7,7 @@ $(document).ready(function(){
     $("#table-milista").css("max-height",salto);
     $("#preview-detalle").css("max-height",salto);
 
-    
-
+    $("#id_acuses").multiSelect();
 });
 
 //funciones

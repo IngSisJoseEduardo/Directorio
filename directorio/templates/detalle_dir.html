@@ -1,9 +1,8 @@
-{# {% extends "base.html" %} #}
+{% extends "base.html" %}
 
-{# {% block title %}{{title}}{% endblock title %} #}
+{% block title %}{{title}}{% endblock title %}
 
 {% block content %}
-{{request.path}}
 <div class="row">
     <div class="col-md-2">
         <a href='{% url "directorio:edit_dir" persona.id %}' class="btn btn-primary btn-md">Editar</a>
@@ -17,7 +16,7 @@
         <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn btn-danger btn-md">Eliminar</a>
     </div>
     <div class="col-md-12" style="text-align:center; font-size: 12px;">
-        <h1 align="center">{{persona.profesion}}{{persona.nombre}}</h1>
+        <h1 align="center">{{persona.profesion}} {{persona.nombre}}</h1>
         <div class="row">
             <div class="col-md-12" style="font-size:14px;">
                 <table class="table table-hover" style="text-align:left;">
@@ -34,7 +33,7 @@
                             <th>Esposa(o):</th><td>{{persona.pareja}}</td>
                         </tr>
                         <tr>
-                            <th>Pertenece a:</th><td>{{user}}</td>
+                            <th>Pertenece a:</th><td>{{persona.user}}</td>
                         </tr>
                         {% if persona.modificado %}
                             <tr>

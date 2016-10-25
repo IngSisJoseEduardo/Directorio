@@ -16,7 +16,7 @@ from directorio.forms import DirectorioForm
 # Create your views here.
 @login_required
 def home(request):
-    instancias = Directorio.objects.all()#.order_by('nombre');
+    instancias = Directorio.objects.all().exclude(eliminado__exact="1")
 
     query = request.GET.get("q")
     if query:
@@ -29,7 +29,7 @@ def home(request):
 
 @login_required
 def create_directorio(request):
-    title = "Nueva Persona"
+    title = ""
     form = DirectorioForm(request.POST or None)
 
     if form.is_valid():
@@ -46,7 +46,7 @@ def create_directorio(request):
 
 @login_required
 def milista_dir(request):
-    lista = Directorio.objects.filter(user_id__exact= request.user.id)
+    lista = Directorio.objects.filter(user_id__exact= request.user.id).exclude(eliminado__exact="1")
 
     query = request.GET.get("q")
 
@@ -57,6 +57,7 @@ def milista_dir(request):
     }
     return render(request,'milista.html',contexto)
 
+@login_required
 def seleccionar_acuses_mi_lista(request):
     instancias = Directorio.objects.filter(user_id__exact = request.user.id).exclude(status__exact=1)
 
@@ -87,10 +88,11 @@ def seleccionar_acuses_mi_lista(request):
     }
     return render(request,"multiple_acuses.html",contexto)
 
+@login_required
 def seleccionar_acuses_directorio(request):
     instancias = Directorio.objects.all().exclude(status__exact = 1)
 
-    mensaje = "Aqui seleccionas los acuses del directorio general"
+    mensaje = "*Aqui podras seleccionar los acuses que han sido autorizados en todo el directorio"
 
     invocador = "directorio"
 
@@ -154,7 +156,7 @@ def detail_directorio(request, id = None):
 def confirm_delete_directorio(request,id = None):
     instancia = get_object_or_404(Directorio, id = id)
     contexto = {
-        "persona" : instancia
+        "persona" : instancia,
     }
     return render(request,'confirm_delete.html',contexto)
 
@@ -189,6 +191,7 @@ def crear_mi_lista(request):
     document.save(response)
 
     return response
+
 
 def crear_mis_acuses(request):
     mis_acuses = Directorio.objects.filter(user_id__exact=request.user.id).exclude(status__exact=1)
@@ -230,6 +233,14 @@ def acuses_generales(request):
     response['Content-Disposition'] = 'attachment; filename=lista.docx'
     document.save(response)
     return response 
+
+def load_detail(request, id = None):
+    instancia = get_object_or_404(Directorio, id = id)
+    contexto = {
+        "persona" : instancia
+    }
+    return render(request,"load_detail.html",contexto)
+
 # cuerpo del aacuse, recibiendo por parametro el objeto document y los datos de la persona
 def acuse(document, persona):
     x = 1;
@@ -240,7 +251,7 @@ def acuse(document, persona):
     p1Format = p1.paragraph_format
     p1Format.space_before = Pt(0)
     p1Format.space_after = Pt(0)
-    nombre = "%s%s"%(persona.profesion,persona.nombre)
+    nombre = "%s %s"%(persona.profesion,persona.nombre)
     f = p1.add_run(nombre).font
     f.name = 'Arial'
     f.bold = True
@@ -309,4 +320,3 @@ def acuse(document, persona):
     f6 = p6.add_run('nombre, firma y fecha').font
     f6.name = 'Arial'
     f6.size = Pt(12)
-

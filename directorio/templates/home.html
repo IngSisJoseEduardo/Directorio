@@ -48,7 +48,7 @@
                             <td >{{persona.profesion}}</td>
                             <td >{{persona.nombre}}</td>
                             {# <td><input type="checkbox" name="aut" id=""></td> #}
-                            <td ><label><a href='javascript:detalle("{% url "directorio:detail_dir" persona.id %}");' id="link-detalle" class="btn btn-default btn-sm">Detalles</a></label>
+                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn btn-default btn-sm">Detalles</a></label>
                             {% if persona.status != "1" %}
                                 <label><a href='{% url "directorio:doc" persona.id %}' class="btn btn-info btn-sm">Acuse</a></label></td>
                             {% endif %}
@@ -59,7 +59,7 @@
         </div>
         {# contenedor donde se mostrara el detalle  #}
         <div class="col-md-6" style="overflow: hidden; overflow-y: auto;" id="preview-detalle">
-            
+        {{request.name}}
         </div>
     </div>
 {% endblock content %} 
