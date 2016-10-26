@@ -14,7 +14,6 @@ class Directorio(models.Model):
     user       = models.ForeignKey(settings.AUTH_USER_MODEL,null=True)
     status     = models.CharField(max_length=1,default='1')
     modificado = models.CharField(max_length=150,null=True)
-    eliminado = models.IntegerField(null=True,default=0)
 
 
     class Meta:
@@ -26,3 +25,16 @@ class Directorio(models.Model):
 
     def get_detail_path(self):
         return reverse("directorio:detail_dir",kwargs = {'id':self.id})
+
+class Obsequio(models.Model):
+    nombre    = models.CharField(max_length=150)
+    cantidad  = models.IntegerField()
+    entregado = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "Obsequio"
+        verbose_name_plural = "Obsequios"
+
+    def __str__(self):
+        return self.nombre
+    

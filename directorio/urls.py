@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'^acuses_generales/$',views.acuses_generales,name='acuses_generales'),
     url(r'^generar_acuses_directorio',views.seleccionar_acuses_directorio, name = "seleccion_gral_dir"),
     url(r'^(?P<id>\d+)/load_detail/$',views.load_detail, name ="load_detail"),
+    url(r'^informacion/$',views.informacion, name = "informacion"),
 ]

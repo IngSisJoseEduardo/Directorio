@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 #Modelos
-from directorio.models import Directorio
+from directorio.models import Directorio, Obsequio
 
 #Formularios
 from directorio.forms import DirectorioForm
@@ -16,7 +16,7 @@ from directorio.forms import DirectorioForm
 # Create your views here.
 @login_required
 def home(request):
-    instancias = Directorio.objects.all().exclude(eliminado__exact="1")
+    instancias = Directorio.objects.all()
 
     query = request.GET.get("q")
     if query:
@@ -46,7 +46,7 @@ def create_directorio(request):
 
 @login_required
 def milista_dir(request):
-    lista = Directorio.objects.filter(user_id__exact= request.user.id).exclude(eliminado__exact="1")
+    lista = Directorio.objects.filter(user_id__exact= request.user.id)
 
     query = request.GET.get("q")
 
@@ -70,7 +70,7 @@ def seleccionar_acuses_mi_lista(request):
         document = Document()
 
         for x in acuses:
-            print(x)
+            # print(x)
             persona = get_object_or_404(Directorio, id= x)
             acuse(document,persona)
             document.add_page_break()
@@ -102,7 +102,7 @@ def seleccionar_acuses_directorio(request):
         document = Document()
 
         for x in acuses:
-            print(x)
+            # print(x)
             persona = get_object_or_404(Directorio, id= x)
             acuse(document,persona)
             document.add_page_break()
@@ -161,7 +161,7 @@ def confirm_delete_directorio(request,id = None):
     return render(request,'confirm_delete.html',contexto)
 
 @login_required
-def delete_directorio(request, id=None):
+def delete_directorio(request, id=None ):
     instancia = get_object_or_404(Directorio, id= id)
     instancia.delete()
     return redirect('directorio:home')
@@ -240,6 +240,19 @@ def load_detail(request, id = None):
         "persona" : instancia
     }
     return render(request,"load_detail.html",contexto)
+
+def informacion(request):
+    # instancia  = get_object_or_404(Obsequio, id = 1)
+    instancia = Obsequio.objects.get(id=1)
+    entregados = Directorio.objects.filter(status__exact = 3).count()
+    existencia = instancia.cantidad - entregados
+    contexto = {
+        "obsequio" : instancia,
+        "entregados" : entregados,
+        "existencia"    : existencia
+    }
+    return render(request,"informacion.html",contexto)
+
 
 # cuerpo del aacuse, recibiendo por parametro el objeto document y los datos de la persona
 def acuse(document, persona):

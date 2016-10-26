@@ -38,9 +38,10 @@
   -moz-border-radius: 3px;
   border-radius: 3px;
   position: relative;
-  height: 500px;
+  height: 400px;
   padding: 0;
   overflow-y: auto;
+  margin-top: 10px;
 }
 
 .ms-container .ms-list.ms-focus{

@@ -11,6 +11,7 @@
 {% block ligas %}
     <link rel="stylesheet" type="text/css" href='{% static "css/multi-select.css" %}'>
     <script type="text/javascript" src ='{% static "js/jquery.multi-select.js" %}'></script>
+    <script type="text/javascript" src = '{% static "js/jquery.quicksearch.js" %}'></script>
 {% endblock ligas %}
 
 {# bloque para agregar scripts #}
@@ -32,7 +33,7 @@
                 <input type="submit" value="Crear Acuses" class="btn btn-default">
                 {% csrf_token %}
                 <div style="margin-top: 10px;">
-                    <select multiple="multiple" id="id_acuses" name="acuses" required="required">
+                    <select multiple="multiple" id="id_acuses" name="acuses" required="required" class="searchable">
                         {% for persona in instancias %}
                             <option value="{{persona.id}}">{{persona.profesion}} {{persona.nombre}}</option>
                         

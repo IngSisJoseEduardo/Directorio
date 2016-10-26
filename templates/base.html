@@ -45,29 +45,13 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                {% ifequal request.path "/directorio/"  %}
-                  <li class="active"><a href='{% url "directorio:home" %}'>Directorio</a></li>
-                {% else %}
-                  {% ifequal request.path "/directorio/generar_acuses_directorio"  %}
-                    <li class="active"><a href='{% url "directorio:home" %}'>Directorio</a></li>
-                  {% else %}
                     <li><a href='{% url "directorio:home" %}'>Directorio</a></li>
-                  {% endifequal %}
-                {% endifequal %}
-                {% ifequal request.path "/directorio/milista/"  %}
-                  <li class="active"><a href='{% url "directorio:milista_dir" %}'>Mi Lista</a></li>
-                {% else %}
-                  {% ifequal request.path "/directorio/generar_acuses_milista/"  %}
-                    <li class="active"><a href='{% url "directorio:milista_dir" %}'>Mi Lista</a></li>
-                  {% else %}
+                  
                     <li><a href='{% url "directorio:milista_dir" %}'>Mi Lista</a></li>
-                  {% endifequal %}
-                {% endifequal %}
-                {% ifequal request.path "/directorio/nuevo/"  %}
-                  <li class="active"><a href='{% url "directorio:create_dir" %}'>Nueva Persona</a></li>
-                {% else %}
-                  <li><a href='{% url "directorio:create_dir" %}'>Nueva Persona</a></li>
-                {% endifequal %}
+                  
+                    <li><a href='{% url "directorio:create_dir" %}'>Nueva Persona</a></li>
+
+                    <li><a href='{% url "directorio:informacion" %}'>Información</a></li>
 
               </ul>
               <ul class="nav navbar-nav navbar-right">
