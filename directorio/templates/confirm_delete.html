@@ -6,15 +6,17 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <h2>¿Realmente desea eliminar a esta persona ?</h2>
-            <h1>{{persona.profesion}} {{persona.nombre}}</h1>
-            <label>
-                <a href='{{persona.get_detail_path}}' class="btn btn-primary">Cancelar</a>
-            </label>
-            <label>
-                <a href='{% url "directorio:delete_dir" persona.id %}' class="btn btn-danger">Eliminar</a>
-            </label>
+        <div class="col m6 offset-m3">
+            <h4>¿Realmente desea eliminar a esta persona ?</h4>
+            <h3>{{persona.profesion}} {{persona.nombre}}</h3>
+            <div class="row">
+                <div class="col m3">
+                    <a href='{{persona.get_detail_path}}' class="btn light-blue darken-4">Cancelar</a>
+                </div>
+                <div class="col m3 offset-m6">
+                    <a href='{% url "directorio:delete_dir" persona.id %}' class="btn red darken-4">Eliminar</a>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}

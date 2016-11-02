@@ -11,9 +11,11 @@ class Directorio(models.Model):
     cargo      = models.TextField(null=True,blank=True)
     direccion  = models.TextField(null=True,blank=True)
     telefono   = models.CharField(max_length=50,null=True,blank=True)
-    user       = models.ForeignKey(settings.AUTH_USER_MODEL,null=True)
+    user       = models.ForeignKey(settings.AUTH_USER_MODEL,null=True,blank=True)
     status     = models.CharField(max_length=1,default='1')
-    modificado = models.CharField(max_length=150,null=True)
+    modificado = models.CharField(max_length=150,null=True,blank=True)
+    cdmx       = models.BooleanField(default=False)
+
 
 
     class Meta:
@@ -26,10 +28,16 @@ class Directorio(models.Model):
     def get_detail_path(self):
         return reverse("directorio:detail_dir",kwargs = {'id':self.id})
 
+    
+
 class Obsequio(models.Model):
-    nombre    = models.CharField(max_length=150)
-    cantidad  = models.IntegerField()
-    entregado = models.IntegerField(null=True, blank=True)
+    nombre     = models.CharField(max_length=150)
+    cantidad   = models.IntegerField()
+    entregado  = models.IntegerField(null=True, blank=True)
+    existencia = models.IntegerField(null=True,blank=True)
+    default    = models.BooleanField(default=False)
+    timestamps = models.DateTimeField(auto_now=True,auto_now_add=False)
+
 
     class Meta:
         verbose_name = "Obsequio"
@@ -37,4 +45,28 @@ class Obsequio(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class Historial(models.Model):
+    directorio = models.ForeignKey(Directorio)
+    obsequio   = models.ForeignKey(Obsequio)
+    timestamps = models.DateTimeField(auto_now=True,auto_now_add=False)
+    class Meta:
+        verbose_name = "Historial"
+        verbose_name_plural = "Historiales"
+
+    def __str__(self):
+        return self.directorio.nombre
+
+class Acuse(models.Model):
+    contenido  = models.TextField()
+    update     = models.DateTimeField(auto_now=True,auto_now_add=False)
+    timestamps = models.DateTimeField(auto_now=False,auto_now_add=True)
+    obsequio   = models.OneToOneField(Obsequio)
+
+    class Meta:
+        verbose_name = "Acuse"
+        verbose_name_plural = "Acuses"
+
+    def __str__(self):
+        return self.contenido
     

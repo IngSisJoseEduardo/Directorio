@@ -1,13 +1,13 @@
 
 $(document).ready(function(){
     var alto = $( window ).height();
-var salto = (alto-160)+"px";
+var salto = (alto-270)+"px";
 
 $("#table-list").css("max-height",salto);
 $("#table-milista").css("max-height",salto);
 $("#preview-detalle").css("max-height",salto);
 
-// $("#id_acuses").multiSelect();
+$('select').material_select();
 
 $('.searchable').multiSelect({
     selectableHeader: "<input type='text' class='search-input form-control' autocomplete='off' placeholder='ejemplo. Lic. josé'>",

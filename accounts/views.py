@@ -29,7 +29,7 @@ def login_view(request):
 
 
 def register_view(request):
-    title = "Register User"
+    title = "Usuario Nuevo"
     form = UserRegisterForm(request.POST or None)
 
     if form.is_valid():

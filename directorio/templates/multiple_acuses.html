@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{% load crispy_forms_tags %}
 
 {# titulo de la pagina #}
 {% block title %}
@@ -22,12 +21,12 @@
 {# bloque de contenido html #}
 {% block content %}
 <div class="row">
-    <div class="col-md-8 col-md-offset-2" style="text-align: center;">
+    <div class="col m8 col offset-m2" style="text-align: center;">
         <h4>{{mensaje}}</h4>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col m8 col offset-m2">
         <div style="font-size: 18px;">
             <form action="" method="POST">
                 <input type="submit" value="Crear Acuses" class="btn btn-default">

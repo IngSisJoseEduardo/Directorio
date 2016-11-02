@@ -13,7 +13,7 @@ from directorio.models import Directorio, Obsequio
 #Formularios
 from directorio.forms import DirectorioForm
 
-# Create your views here.
+# CRUD Directorio
 @login_required
 def home(request):
     instancias = Directorio.objects.all()
@@ -58,74 +58,9 @@ def milista_dir(request):
     return render(request,'milista.html',contexto)
 
 @login_required
-def seleccionar_acuses_mi_lista(request):
-    instancias = Directorio.objects.filter(user_id__exact = request.user.id).exclude(status__exact=1)
-
-    mensaje = "Selecciona los acuses de tu lista"
-
-    invocador = "milista"
-
-    if request.POST:
-        acuses = request.POST.getlist("acuses")
-        document = Document()
-
-        for x in acuses:
-            # print(x)
-            persona = get_object_or_404(Directorio, id= x)
-            acuse(document,persona)
-            document.add_page_break()
-
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
-        document.save(response)
-
-        return response
-
-    contexto = {
-        "instancias" : instancias,
-        "mensaje" : mensaje,
-        "invocador" : invocador
-    }
-    return render(request,"multiple_acuses.html",contexto)
-
-@login_required
-def seleccionar_acuses_directorio(request):
-    instancias = Directorio.objects.all().exclude(status__exact = 1)
-
-    mensaje = "*Aqui podras seleccionar los acuses que han sido autorizados en todo el directorio"
-
-    invocador = "directorio"
-
-    if request.POST:
-        acuses = request.POST.getlist("acuses")
-
-        document = Document()
-
-        for x in acuses:
-            # print(x)
-            persona = get_object_or_404(Directorio, id= x)
-            acuse(document,persona)
-            document.add_page_break()
-
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
-        document.save(response)
-
-        return response
-
-
-    contexto = {
-        "instancias" : instancias,
-        "mensaje"   : mensaje,
-        "invocador" : invocador
-    }
-
-    return render(request,"multiple_acuses.html",contexto)
-
-@login_required
 def edit_directorio(request, id = None):
     persona = get_object_or_404(Directorio,id = id)
-    title = "Editando a: %s"%persona.nombre
+    title = "Editando a: \r %s"%persona.nombre
     form = DirectorioForm(request.POST or None,instance = persona)
 
     if form.is_valid():
@@ -165,6 +100,98 @@ def delete_directorio(request, id=None ):
     instancia = get_object_or_404(Directorio, id= id)
     instancia.delete()
     return redirect('directorio:home')
+
+@login_required
+def load_detail(request, id = None):
+    instancia = get_object_or_404(Directorio, id = id)
+    contexto = {
+        "persona" : instancia
+    }
+    return render(request,"load_detail.html",contexto)
+
+@login_required
+def informacion(request):
+    # instancia  = get_object_or_404(Obsequio, id = 1)
+    instancia = Obsequio.objects.get(id=1)
+    entregados = Directorio.objects.filter(status__exact = 3).count()
+    existencia = instancia.cantidad - entregados
+    contexto = {
+        "obsequio" : instancia,
+        "entregados" : entregados,
+        "existencia"    : existencia
+    }
+    return render(request,"informacion.html",contexto)
+
+# CRUD de Acuse
+
+
+# Vistas que generan un archivo de WORD
+@login_required
+def seleccionar_acuses_mi_lista(request):
+    instancias = Directorio.objects.filter(user_id__exact = request.user.id).exclude(status__exact=1)
+
+    mensaje = "Selecciona los acuses de tu lista"
+
+    invocador = "milista"
+
+    if request.POST:
+        acuses = request.POST.getlist("acuses")
+        document = Document()
+
+        for x in acuses:
+            # print(x)
+            persona = get_object_or_404(Directorio, id= x)
+            acuse(document,persona)
+            document.add_page_break()
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
+        document.save(response)
+
+        return response
+
+    contexto = {
+        "instancias" : instancias,
+        "mensaje" : mensaje,
+        "invocador" : invocador
+    }
+    return render(request,"multiple_acuses.html",contexto)
+
+@login_required
+def seleccionar_acuses_directorio(request):
+    
+    instancias = Directorio.objects.all().exclude(status__exact = 1)
+
+    mensaje = "*Aqui podras seleccionar los acuses que han sido autorizados en todo el directorio"
+
+    invocador = "directorio"
+
+    if request.POST:
+        acuses = request.POST.getlist("acuses")
+
+        document = Document()
+
+        for x in acuses:
+            # print(x)
+            persona = get_object_or_404(Directorio, id= x)
+            acuse(document,persona)
+            document.add_page_break()
+
+        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
+        document.save(response)
+
+        return response
+
+
+    contexto = {
+        "instancias" : instancias,
+        "mensaje"   : mensaje,
+        "invocador" : invocador
+    }
+
+    return render(request,"multiple_acuses.html",contexto)
+
 
 def un_acuse(request,id = None):
     persona = get_object_or_404(Directorio, id = id)
@@ -233,25 +260,6 @@ def acuses_generales(request):
     response['Content-Disposition'] = 'attachment; filename=lista.docx'
     document.save(response)
     return response 
-
-def load_detail(request, id = None):
-    instancia = get_object_or_404(Directorio, id = id)
-    contexto = {
-        "persona" : instancia
-    }
-    return render(request,"load_detail.html",contexto)
-
-def informacion(request):
-    # instancia  = get_object_or_404(Obsequio, id = 1)
-    instancia = Obsequio.objects.get(id=1)
-    entregados = Directorio.objects.filter(status__exact = 3).count()
-    existencia = instancia.cantidad - entregados
-    contexto = {
-        "obsequio" : instancia,
-        "entregados" : entregados,
-        "existencia"    : existencia
-    }
-    return render(request,"informacion.html",contexto)
 
 
 # cuerpo del aacuse, recibiendo por parametro el objeto document y los datos de la persona

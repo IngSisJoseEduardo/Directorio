@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'directorio',
     'accounts',
     #paquetes
-    'crispy_forms',
+    # 'crispy_forms',
+    'materializecssform',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'

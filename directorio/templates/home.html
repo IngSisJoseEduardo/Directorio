@@ -3,28 +3,35 @@
 {% block title %}Directorio{% endblock title %}
 
 {% block content %}
-        <h4>Directorio Completo</h4>
     <div class="row">
-        <div class="col-md-6">
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Buscar" name="q" value="{{request.GET.q}}">
+        <form action="" method="GET">
+            <div class="col m6">
+                <div class="input-field">
+                    <label for="Buscar">Buscar</label> 
+                    <input type="text" class="" name="q" value="{{request.GET.q}}">
                 </div>
-                <button type="submit" class="btn btn-default">Buscar</button>
-                <a href='{% url "directorio:home" %}' class="btn btn-default bt-md">Lista completa</a>
-             </form>
-        </div>
-        <div class="col-md-6">
-            <ul class="nav nav-pills">
-              <li role="presentation"><a href='{% url "directorio:crear_lista_general" %}'>Lista completa</a></li>
-              <li role="presentation"><a href='{% url "directorio:acuses_generales" %}'>Acuses autorizados</a></li>
-              <li role="presentation"><a href='{% url "directorio:seleccion_gral_dir" %}'>Seleccionar acuses autorizados</a></li>
-            </ul>
-        </div>
+            </div>
+            <div class="col m6">
+                <div class="input-field">
+                    <button type="submit" class="btn waves-effect waves-light">
+                     <i class="material-icons">search</i>
+                    </button>
+                    <a href='{% url "directorio:home" %}' class="btn waves-effect waves-light">Lista completa</a>
+                    <!-- Dropdown Trigger -->
+                    <a class='dropdown-button btn' href='#' data-activates='dropdown2'>Opciones de Word</a>
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdown2' class='dropdown-content'>
+                      <li><a href='{% url "directorio:crear_lista_general" %}' class="waves-effect waves-teal">Lista</a></li>
+                      <li><a href='{% url "directorio:acuses_generales" %}' class="waves-effect waves-teal">Acuses</a></li>
+                      <li><a href='{% url "directorio:seleccion_gral_dir" %}' class="waves-effect waves-teal">Seleccionar acuses autorizados</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
     </div>
     <div class="row">
-        <div class="col-md-6" id="table-list" style="overflow: hidden;overflow-y: auto;">
-            <table class="table table-hover" >
+        <div class="col m6" id="table-list" style="overflow: hidden;overflow-y: auto;">
+            <table class="bordered highlight" >
                 <thead>
                     <tr>
                         <th>Prof.</th>
@@ -36,10 +43,10 @@
                 <tbody>
                     {% for persona in directorio %}
                         {% if persona.status == "2" %}
-                            <tr class="success">
+                            <tr class="">
                         {% else %}
                             {% if persona.status == "3" %}
-                                <tr class="info">
+                                <tr class="">
                             {% else %}
                                 <tr>
                             {% endif %}
@@ -47,10 +54,13 @@
                             {# <td >{{persona.id}}</td> #}
                             <td >{{persona.profesion}}</td>
                             <td >{{persona.nombre}}</td>
-                            {# <td><input type="checkbox" name="aut" id=""></td> #}
-                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn btn-default btn-sm">Detalles</a></label>
+                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn waves-effect waves-light">Detalles</a></label>
                             {% if persona.status != "1" %}
-                                <label><a href='{% url "directorio:doc" persona.id %}' class="btn btn-info btn-sm">Acuse</a></label></td>
+                                <label><a href='{% url "directorio:doc" persona.id %}' class="btn waves-effect waves-light" style="margin-top: 10px;">Acuse</a></label>
+                                </td>
+                            <td>
+                                
+                            </td>
                             {% endif %}
                         </tr>
                     {% endfor %}
@@ -58,7 +68,7 @@
             </table>
         </div>
         {# contenedor donde se mostrara el detalle  #}
-        <div class="col-md-6" style="overflow: hidden; overflow-y: auto;" id="preview-detalle">
+        <div class="col m6" style="overflow: hidden; overflow-y: auto;" id="preview-detalle">
         {{request.name}}
         </div>
     </div>
