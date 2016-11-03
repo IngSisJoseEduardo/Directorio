@@ -1,6 +1,7 @@
-body {
-    /*padding-top: 70px; */
-}
+/*body {
+    padding-top: 70px; 
+    background-color: #0277bd;
+}*/
 .active{
     background-color: #fff;
     color: #0277bd;
@@ -11,3 +12,7 @@ nav{
 .active:hover{
     color: #fff;
 }
+
+/*#contenedor{
+    background-color: #fff;
+}*/

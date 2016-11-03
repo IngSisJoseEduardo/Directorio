@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
     var alto = $( window ).height();
-var salto = (alto-270)+"px";
+var salto = (alto-185)+"px";
 
 $("#table-list").css("max-height",salto);
 $("#table-milista").css("max-height",salto);

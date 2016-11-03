@@ -6,25 +6,29 @@
 
 {% block content %}
     <div class="row">
-        <div class="col m12 center-align">
-            <h5>Lista de {{user}}</h5>
-        </div>
-        <div class="col m6">
-            <form action="" method="GET">
+        <form action="" method="GET">
+            <div class="col m6">
+                    <div class="input-field">
+                        <label for="buscar">Buscar</label>
+                        <input type="text" class="validate" name="q" value="{{request.GET.q}}">
+                    </div>
+            </div>
+            <div class="col m6">
                 <div class="input-field">
-                    <label for="buscar">Buscar</label>
-                    <input type="text" class="validate" name="q" value="{{request.GET.q}}">
+                    <button type="submit" class="btn"><i class="material-icons">search</i></button>
+                    <a href='{% url "directorio:milista_dir" %}' class="btn">Mi Lista completa</a>
+                    
+                    <!-- Dropdown Trigger -->
+                    <a class='dropdown-button btn' href='#' data-activates='dropdown2'>Opciones de Word</a>
+                    <!-- Dropdown Structure -->
+                    <ul id='dropdown2' class='dropdown-content'>
+                      <li><a href='{% url "directorio:lista_dir" %}' class="">Mi Lista</a></li>
+                      <li><a href='{% url "directorio:crear_mis_acuses" %}' class="">Mis Acuses</a></li>
+                      <li><a href='{% url "directorio:acuses_dir" %}' class="">Seleccionar mis acuses</a></li>
+                    </ul>
                 </div>
-                <button type="submit" class="btn">Buscar</button>
-                <a href='{% url "directorio:milista_dir" %}' class="btn">Mi Lista completa</a>
-             </form>
-        </div>
-        <div class="col m6">
-              <h5>Estas opciones generan un archivo de word</h5>
-              <a href='{% url "directorio:lista_dir" %}' class="btn-flat">Mi Lista</a>
-              <a href='{% url "directorio:crear_mis_acuses" %}' class="btn-flat">Mis Acuses</a>
-              <a href='{% url "directorio:acuses_dir" %}' class="btn-flat">Seleccionar mis acuses</a>
-        </div>
+            </div>
+        </form>
     </div>
     <div class="row">
         <div class="col m6" id="table-milista" style="overflow: hidden; overflow-y: auto;">
