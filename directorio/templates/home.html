@@ -13,14 +13,14 @@
             </div>
             <div class="col m6">
                 <div class="input-field">
-                    <button type="submit" class="btn waves-effect waves-light">
+                    <button type="submit" class="btn waves-effect waves-light light-blue darken-3">
                      <i class="material-icons">search</i>
                     </button>
-                    <a href='{% url "directorio:home" %}' class="btn waves-effect waves-light">Lista completa</a>
+                    <a href='{% url "directorio:home" %}' class="btn waves-effect waves-light light-blue darken-3">Lista completa</a>
                     <!-- Dropdown Trigger -->
-                    <a class='dropdown-button btn' href='#' data-activates='dropdown2'>Opciones de Word</a>
+                    <a class='dropdown-button btn light-blue darken-3' href='#' data-activates='dropdown2'>Opciones de Word</a>
                     <!-- Dropdown Structure -->
-                    <ul id='dropdown2' class='dropdown-content'>
+                    <ul id='dropdown2' class='dropdown-content '>
                       <li><a href='{% url "directorio:crear_lista_general" %}' class="waves-effect waves-teal">Lista</a></li>
                       <li><a href='{% url "directorio:acuses_generales" %}' class="waves-effect waves-teal">Acuses</a></li>
                       <li><a href='{% url "directorio:seleccion_gral_dir" %}' class="waves-effect waves-teal">Seleccionar acuses autorizados</a></li>
@@ -43,10 +43,10 @@
                 <tbody>
                     {% for persona in directorio %}
                         {% if persona.status == "2" %}
-                            <tr class="">
+                            <tr class=" teal accent-3">
                         {% else %}
                             {% if persona.status == "3" %}
-                                <tr class="">
+                                <tr class="blue lighten-1">
                             {% else %}
                                 <tr>
                             {% endif %}
@@ -54,14 +54,7 @@
                             {# <td >{{persona.id}}</td> #}
                             <td >{{persona.profesion}}</td>
                             <td >{{persona.nombre}}</td>
-                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn waves-effect waves-light">Detalles</a></label>
-                            {% if persona.status != "1" %}
-                                <label><a href='{% url "directorio:doc" persona.id %}' class="btn waves-effect waves-light" style="margin-top: 10px;">Acuse</a></label>
-                                </td>
-                            <td>
-                                
-                            </td>
-                            {% endif %}
+                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn waves-effect waves-light teal darken-4">Detalles</a></label></td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -69,7 +62,6 @@
         </div>
         {# contenedor donde se mostrara el detalle  #}
         <div class="col m6" style="overflow: hidden; overflow-y: auto;" id="preview-detalle">
-        {{request.name}}
         </div>
     </div>
 {% endblock content %} 

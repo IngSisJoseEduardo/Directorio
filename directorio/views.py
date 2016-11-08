@@ -3,12 +3,13 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
 from docx.shared import Inches
 
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 #Modelos
-from directorio.models import Directorio, Obsequio
+from directorio.models import Directorio, Obsequio, Acuse, Historial
 
 #Formularios
 from directorio.forms import DirectorioForm
@@ -16,7 +17,7 @@ from directorio.forms import DirectorioForm
 # CRUD Directorio
 @login_required
 def home(request):
-    instancias = Directorio.objects.all()
+    instancias = Directorio.objects.all().order_by("nombre")
 
     query = request.GET.get("q")
     if query:
@@ -36,17 +37,30 @@ def create_directorio(request):
         instancia = form.save(commit = False)
         instancia.user = request.user
         instancia.save()
-        return redirect(instancia.get_detail_path())
+        status = instancia.status
+
+        if status == "3":
+            obseq = Obsequio.objects.get(default = True)
+            obseq.existencia = obseq.existencia-1
+            obseq.entregado = obseq.entregado+1
+            obseq.save()
+
+            historial = Historial()
+            historial.directorio_id = instancia.id
+            historial.obsequio_id = obseq.id
+            historial.save()
+        messages.success(request,"!Registrado Correctamente¡")
+        return HttpResponseRedirect(instancia.get_detail_path())
+
     contexto = {
         "title" : title,
         "form"  : form
     }
-
     return render(request,"form_dir.html",contexto)
 
 @login_required
 def milista_dir(request):
-    lista = Directorio.objects.filter(user_id__exact= request.user.id)
+    lista = Directorio.objects.filter(user_id__exact= request.user.id).order_by("nombre")
 
     query = request.GET.get("q")
 
@@ -60,16 +74,36 @@ def milista_dir(request):
 @login_required
 def edit_directorio(request, id = None):
     persona = get_object_or_404(Directorio,id = id)
-    title = "Editando a: \r %s"%persona.nombre
-    form = DirectorioForm(request.POST or None,instance = persona)
-
+    pstatus = persona.status
+    obs     = Obsequio.objects.get(default=True)
+    title   = "Editando a: \r %s"%persona.nombre
+    form    = DirectorioForm(request.POST or None,instance = persona)
+    
     if form.is_valid():
         instancia = form.save(commit = False)
         if instancia.user_id != request.user.id:
             instancia.modificado = request.user.username
         # instancia.user = request.user
+        if instancia.status != "3" and pstatus == "3":
+            obs.existencia = obs.existencia+1
+            obs.entregado = obs.entregado-1
+            obs.save()
+
+            delhistorial = Historial.objects.filter(directorio_id__exact = persona.id).filter(obsequio_id__exact=obs.id)
+            delhistorial.delete()
+            
+        elif instancia.status == "3":
+            obs.existencia = obs.existencia-1
+            obs.entregado = obs.entregado+1
+            obs.save()
+
+            historial = Historial()
+            historial.directorio_id = persona.id
+            historial.obsequio_id = obs.id
+            historial.save()
         instancia.save()
-        return redirect(instancia.get_detail_path())
+        messages.success(request,"!Modificado correctamente¡")
+        return HttpResponseRedirect(instancia.get_detail_path())
     contexto = {
         "title" : title,
         "form" : form
@@ -99,7 +133,7 @@ def confirm_delete_directorio(request,id = None):
 def delete_directorio(request, id=None ):
     instancia = get_object_or_404(Directorio, id= id)
     instancia.delete()
-    return redirect('directorio:home')
+    return redirect('directorio:eliminado')
 
 @login_required
 def load_detail(request, id = None):
@@ -112,17 +146,44 @@ def load_detail(request, id = None):
 @login_required
 def informacion(request):
     # instancia  = get_object_or_404(Obsequio, id = 1)
-    instancia = Obsequio.objects.get(id=1)
-    entregados = Directorio.objects.filter(status__exact = 3).count()
-    existencia = instancia.cantidad - entregados
-    contexto = {
+    instancia  = Obsequio.objects.get(default = True)
+    entregados = instancia.entregado #Directorio.objects.filter(status__exact = 3).count()
+    existencia = instancia.existencia
+    contexto   = {
         "obsequio" : instancia,
         "entregados" : entregados,
         "existencia"    : existencia
     }
     return render(request,"informacion.html",contexto)
 
+@login_required
+def eliminado(request):
+    return render(request,"eliminado.html")
+
+#Configuracion y perfil de usuario
+def config_user(request):
+    return render(request,"configuracion_user.html")
+
 # CRUD de Acuse
+def ver_acuse(request):
+    instancia = Acuse.objects.get(default=True)
+    contexto = {
+        "acuse": instancia,
+        "llamado":"ver" 
+    }
+    return render(request,"editar_acuse.html",contexto)
+def editar_acuse(request):
+    instancia = Acuse.objects.get(default=True)
+    if request.POST:
+        if request.POST.get("contenido") != "":
+            instancia.contenido = request.POST.get("contenido")
+            instancia.save()
+    
+    contexto = {
+        "acuse":instancia,
+        "llamado" : "editar"
+    }
+    return render(request,"editar_acuse.html",contexto)
 
 
 # Vistas que generan un archivo de WORD
@@ -264,6 +325,8 @@ def acuses_generales(request):
 
 # cuerpo del aacuse, recibiendo por parametro el objeto document y los datos de la persona
 def acuse(document, persona):
+    instancia = Acuse.objects.get(default = True)
+    acuse_contenido = instancia.contenido
     x = 1;
     while x<=4:
         document.add_paragraph()
@@ -316,7 +379,7 @@ def acuse(document, persona):
     p4Format.space_after = Pt(0)
     p4Format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p4Format.first_line_indent = Inches(0.50)
-    f4 = p4.add_run('Es un hecho establecido hace demasiado tiempo que un lector se distraerá con el contenido del texto de un sitio mientras que mira su diseño. El punto de usar Lorem Ipsum es que tiene una distribución más o menos normal de las letras, al contrario de usar textos como por ejemplo "Contenido aquí, contenido aquí". Estos textos hacen parecerlo un español que se puede leer. Muchos paquetes de autoedición y editores de páginas web usan el Lorem Ipsum como su texto por defecto, y al hacer una búsqueda de "Lorem Ipsum" va a dar por resultado muchos sitios web que usan este texto si se encuentran en estado de desarrollo. Muchas versiones han evolucionado a través de los años, algunas veces por accidente, otras veces a propósito (por ejemplo insertándole humor y cosas por el estilo).').font
+    f4 = p4.add_run(acuse_contenido).font
     f4.name = 'Arial'
     f4.size = Pt(12)
 

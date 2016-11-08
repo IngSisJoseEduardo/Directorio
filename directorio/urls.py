@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from directorio import views
+from accounts.views import update_user, edit_password
 
 urlpatterns = [
     url(r'^$',views.home, name = 'home'),
@@ -20,4 +21,13 @@ urlpatterns = [
     url(r'^generar_acuses_directorio',views.seleccionar_acuses_directorio, name = "seleccion_gral_dir"),
     url(r'^(?P<id>\d+)/load_detail/$',views.load_detail, name ="load_detail"),
     url(r'^informacion/$',views.informacion, name = "informacion"),
+    url(r'^eliminado/$',views.eliminado, name = 'eliminado'),
+
+    #configurcion y perfil del usuario
+    url(r'^perfil/$',views.config_user, name = "user_perfil"),
+    url(r'^perfil/(?P<id>\d+)/config',update_user, name = "config_perfil"),
+    url(r'^perfil/(?P<id>\d+)/password', edit_password, name = "edit_password"),
+    # Vistas de acuse
+    url(r'^editar_acuse/$',views.editar_acuse, name = 'editar_acuse'),
+    url(r'^ver_acuse/$',views.ver_acuse,name = 'ver_acuse'),
 ]

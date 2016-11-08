@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Perfil
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col m8 offset-m2">
+            <div class="section">
+                <h5>Datos de Usuario</h5>
+                <div class="row">
+                    <div class="col m3 offset-m9"><a href='{% url "directorio:config_perfil" user.id %}' class='btn'> Editar</a></div>
+                    <div class="col m12" >
+                        <table class="bordered">
+                            <tr><th>Nombre de usuario:</th><td>{{user}}</td></tr>
+                            <tr><th>Nombre completo:</th><td>{{user.get_full_name}}</td></tr>
+                            <tr><th>Contraseña:</th><td>************** {# <a href='{% url "directorio:edit_password" user.id %}'>Cambiar Contraseña</a> #}</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+           <!--<div class="divider"></div>
+            <div class="section">
+                <h5>Configuracion de mi lista</h5>
+            </div>
+            <div class="divider"></div>
+            <div class="section">
+                <h5>Configuracion de Directorio</h5>
+            </div> -->
+        </div>
+    </div>
+{% endblock content %}

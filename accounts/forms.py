@@ -37,6 +37,8 @@ class UserRegisterForm(forms.ModelForm):
         model = User
         fields = [
             'username',
+            'first_name',
+            'last_name',
             'password',
             'confirmpass',
             'email',
@@ -48,5 +50,5 @@ class UserRegisterForm(forms.ModelForm):
 
         print(password, confirmpass)
         if password != confirmpass:
-            raise forms.ValidationError("las claves no coinciden")
+            raise forms.ValidationError("Las contraseñas no coinciden")
         return confirmpass

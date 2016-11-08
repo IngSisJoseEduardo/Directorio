@@ -4,7 +4,6 @@
 
 {% block content %}
 <div class="row">
-    
     <div class="col m12" style="text-align:center; font-size: 12px;">
         <div class="row" style="margin-top: 20px;">
             <div class="col m4">
@@ -19,8 +18,15 @@
                 <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn red darken-4">Eliminar</a>
             </div>
         </div>
-        <h1 align="center">{{persona.profesion}} {{persona.nombre}}</h1>
         <div class="row">
+        <div class="col m6 offset-m3">
+            {% for mensaje in messages  %}
+                <div><span class="green-text text-darken-2"><h5>{{mensaje}}</h5></span></div>
+            {% endfor %}
+        </div>
+        <div class="col m12">
+            <h1 align="center">{{persona.profesion}} {{persona.nombre}}</h1>
+        </div>
             <div class="col m8 offset-m2" style="font-size:14px;">
                 <table class="bordered" style="text-align:left;">
                         <tr>
@@ -43,6 +49,16 @@
                                 <th>Modifiado por:</th><td>{{persona.modificado}}</td>
                             </tr>
                         {% endif %}
+                        {% if persona.status == "1" %}
+                            <tr><th>Situcación:</th><td>No Autorizado</td></tr>
+                        {% else %}
+                            {% if persona.status == "2" %}
+                                <tr><th>Situcación:</th><td>Autorizado</td></tr>
+                            {% else %}
+                                <tr><th>Situcación:</th><td>Entregado</td></tr>
+                            {% endif %}
+                        {% endif %}
+
                 </table>
             </div>
         </div>

@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 # Create your models here.
 class Directorio(models.Model):
     profesion  = models.CharField(max_length=50,null=True,blank=True)
-    nombre     = models.CharField(max_length=150)
+    nombre     = models.CharField(max_length=150,unique=True)
     pareja     = models.CharField(max_length=150,null=True,blank=True)
     cargo      = models.TextField(null=True,blank=True)
     direccion  = models.TextField(null=True,blank=True)
@@ -33,8 +33,8 @@ class Directorio(models.Model):
 class Obsequio(models.Model):
     nombre     = models.CharField(max_length=150)
     cantidad   = models.IntegerField()
-    entregado  = models.IntegerField(null=True, blank=True)
-    existencia = models.IntegerField(null=True,blank=True)
+    entregado  = models.IntegerField(default=0,null=True, blank=True)
+    existencia = models.IntegerField(default=0,null=True,blank=True)
     default    = models.BooleanField(default=False)
     timestamps = models.DateTimeField(auto_now=True,auto_now_add=False)
 
@@ -62,6 +62,7 @@ class Acuse(models.Model):
     update     = models.DateTimeField(auto_now=True,auto_now_add=False)
     timestamps = models.DateTimeField(auto_now=False,auto_now_add=True)
     obsequio   = models.OneToOneField(Obsequio)
+    default     = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Acuse"

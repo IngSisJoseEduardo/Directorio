@@ -15,11 +15,11 @@
             </div>
             <div class="col m6">
                 <div class="input-field">
-                    <button type="submit" class="btn"><i class="material-icons">search</i></button>
-                    <a href='{% url "directorio:milista_dir" %}' class="btn">Mi Lista completa</a>
+                    <button type="submit" class="btn light-blue darken-3"><i class="material-icons">search</i></button>
+                    <a href='{% url "directorio:milista_dir" %}' class="btn light-blue darken-3">Mi Lista completa</a>
                     
                     <!-- Dropdown Trigger -->
-                    <a class='dropdown-button btn' href='#' data-activates='dropdown2'>Opciones de Word</a>
+                    <a class='dropdown-button btn light-blue darken-3' href='#' data-activates='dropdown2'>Opciones de Word</a>
                     <!-- Dropdown Structure -->
                     <ul id='dropdown2' class='dropdown-content'>
                       <li><a href='{% url "directorio:lista_dir" %}' class="">Mi Lista</a></li>
@@ -32,7 +32,7 @@
     </div>
     <div class="row">
         <div class="col m6" id="table-milista" style="overflow: hidden; overflow-y: auto;">
-                <table class="table table-hover">
+                <table class="bordered highlight">
                     <thead>
                         <tr>
                             <th>Profesión</th>
@@ -43,10 +43,10 @@
                     <tbody>
                         {% for persona in lista %}
                             {% if persona.status == "2" %}
-                                <tr class="success">
+                                <tr class="teal accent-3">
                             {% else %}
                                 {% if persona.status == "3"%}
-                                    <tr class="info">
+                                    <tr class="blue lighten-1">
                                 {% else %}
                                     <tr>
                                 {% endif %}
@@ -54,10 +54,7 @@
                             <td>{{persona.profesion}}</td>
                             <td>{{persona.nombre}}</td>
                             <td>
-                                <label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn btn-default btn-sm">Detalles</a></label>
-                                {% if persona.status != "1"  and persona.status != "None" %}
-                                    <label><a href='{% url "directorio:doc" persona.id %}' class="btn btn-info btn-sm">Acuse</a></label>
-                                {% endif %}
+                                <label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn teal darken-4">Detalles</a></label>
                             </td>
                             </tr>
                         {% endfor %}

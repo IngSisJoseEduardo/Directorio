@@ -36,32 +36,42 @@
       <div class="nav-wrapper">
         <ul class="left hide-on-med-and-down">
           <li>
-            <a href='{% url "directorio:home" %}' class="active">Directorio</a>
+            <img src='{% static "img/logo.png" %}' style="max-height: 65px;">
+          </li>
+          <li>
+            <a href='{% url "directorio:home" %}' {% if  request.resolver_match.url_name == "home" or request.resolver_match.url_name == "seleccion_gral_dir" %}class="active"{% endif %} >Directorio</a>
           </li>
         
-          <li><a href='{% url "directorio:milista_dir" %}'>Mi Lista</a></li>
+          <li><a href='{% url "directorio:milista_dir" %}' {% if request.resolver_match.url_name == "milista_dir" or request.resolver_match.url_name == "acuses_dir"%}class="active"{% endif %} >Mi Lista</a></li>
         
-          <li><a href='{% url "directorio:create_dir" %}'>Nueva Persona</a></li>
+          <li><a href='{% url "directorio:create_dir" %}' {% ifequal  request.resolver_match.url_name "create_dir" %}class="active"{% endifequal %} >Nueva Persona</a></li>
 
-          <li><a href='{% url "directorio:informacion" %}'>Información</a></li>
+          <li><a href='{% url "directorio:informacion" %}' {% ifequal  request.resolver_match.url_name "informacion" %}class="active"{% endifequal %} >Información</a></li>
           <li>
-
             <!-- Dropdown Trigger -->
             <a class='dropdown-button' href='#' data-activates='dropdown1'>Acuse<i class="material-icons right">arrow_drop_down</i></a>
             
             <!-- Dropdown Structure -->
-            <ul id='dropdown1' class='dropdown-content'>
+            <ul id='dropdown1' class='dropdown-content '>
               {# <li><a href="#!">Nuevo</a></li> #}
-              <li><a href="#!">Editar</a></li>
-              <li><a href="#!">Ver</a></li>
+              <li><a href='{% url "directorio:ver_acuse" %}'>Ver</a></li>
+              <li><a href='{% url "directorio:editar_acuse" %}'>Editar</a></li>
             </ul>
                   
           </li>
 
         </ul>
         <ul class="right hide-on-med-and-down">
-          <li>Usuario: {{user}}</li>
-          <li><a href='{% url "accounts:logout" %}'>Cerrar Sesión</a></li>
+          <li>
+            <a href="#" class="dropdown-button" data-activates="dropdown3"> Usuario: {{user}} <i class="material-icons right">arrow_drop_down</i></a>
+            <ul id="dropdown3" class="dropdown-content">
+              <li><a href='{% url "directorio:user_perfil" %}'>Perfil</a></li>
+              {# <li><a href="#">Configuracion</a></li> #}
+              <li class="divider"></li>
+              <li><a href='{% url "accounts:logout" %}'>Cerrar Sesión</a></li>
+            </ul>
+          </li>
+
         </ul>
       </div>    
     </nav>

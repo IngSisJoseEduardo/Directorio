@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Editar Acuse
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col m6 offset-m3" style="margin-top: 15px;">
+            {% ifequal llamado "ver"  %}
+            <p><h5>Contenido</h5></p>
+                <p>{{acuse.contenido}}</p>
+            {% else %}
+                {% ifequal llamado "editar"  %}
+                    <div class="input-field" >
+                        <form action="" method="POST">
+                        {% csrf_token %}
+                            <label for="contenido">Contenido</label>
+                            <textarea class="materialize-textarea" name="contenido">{{acuse.contenido}}</textarea>
+                            <button type="submit" class="btn waves-effect waves-light">
+                                Guardar Cambios
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </form>
+                    </div>
+                {% endifequal %}
+            {% endifequal %}
+            <div class="row">
+                <div class="col m12">
+                    <h6>Relacionado con el obsequio</h6>
+                </div>
+                <div class="col m12">
+                    <h5>{{acuse.obsequio.nombre}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
