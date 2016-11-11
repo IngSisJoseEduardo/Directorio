@@ -46,10 +46,12 @@ INSTALLED_APPS = [
     #paquetes
     # 'crispy_forms',
     'materializecssform',
+    'templated_docs',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 LOGIN_URL = 'accounts:login'
+TEMPLATED_DOCS_LIBREOFFICE_PATH = '/usr/lib/libreoffice/program'
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',

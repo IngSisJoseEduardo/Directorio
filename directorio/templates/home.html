@@ -30,10 +30,12 @@
         </form>
     </div>
     <div class="row">
+    {{lista.0}}
         <div class="col m6" id="table-list" style="overflow: hidden;overflow-y: auto;">
             <table class="bordered highlight" >
                 <thead>
                     <tr>
+                        <th>No.</th>
                         <th>Prof.</th>
                         <th>Nombre</th>
                         {# <th>Aut.</th> #}
@@ -51,10 +53,10 @@
                                 <tr>
                             {% endif %}
                         {% endif %}
-                            {# <td >{{persona.id}}</td> #}
+                            <td >{{persona.id}}</td>
                             <td >{{persona.profesion}}</td>
                             <td >{{persona.nombre}}</td>
-                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn waves-effect waves-light teal darken-4">Detalles</a></label></td>
+                            <td ><label><a href='javascript:detalle("{% url "directorio:load_detail" persona.id %}");' id="link-detalle" class="btn waves-light teal darken-4">Detalles</a></label></td>
                         </tr>
                     {% endfor %}
                 </tbody>

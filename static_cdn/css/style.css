@@ -1,3 +1,18 @@
-body {
+/*body {
     padding-top: 70px; 
+    background-color: #0277bd;
+}*/
+.active{
+    background-color: #fff;
+    color: #0277bd;
 }
+nav{
+    box-shadow: none;
+}
+.active:hover{
+    color: #fff;
+}
+
+/*#contenedor{
+    background-color: #fff;
+}*/

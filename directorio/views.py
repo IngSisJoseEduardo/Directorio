@@ -17,14 +17,15 @@ from directorio.forms import DirectorioForm
 # CRUD Directorio
 @login_required
 def home(request):
-    instancias = Directorio.objects.all().order_by("nombre")
+    instancias = Directorio.objects.all().order_by("id")
 
     query = request.GET.get("q")
     if query:
         instancias = instancias.filter(nombre__icontains = query)
 
     contexto ={
-        "directorio" : instancias
+        "directorio" : instancias,
+        "rango": range(10),
     }
     return render(request,'home.html', contexto)
 

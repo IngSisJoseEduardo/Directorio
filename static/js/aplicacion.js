@@ -48,5 +48,13 @@ $('.searchable').multiSelect({
 
 //funciones
 function detalle(ruta){
-    $('#preview-detalle').load(ruta);
+    // $('#preview-detalle').load(ruta);
+    $.ajax({
+        type: "GET",
+        url: ruta,
+        success: function(a) {
+                $('#preview-detalle').html(a);
+        }
+       });
+    console.log("ajax")
 }

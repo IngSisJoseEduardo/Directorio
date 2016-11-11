@@ -4,7 +4,7 @@ from directorio.models import Directorio
 class DirectorioForm(forms.ModelForm):
     profesion = forms.CharField(max_length=50,label='Profesión',required=False)
     pareja    = forms.CharField(max_length=150,label='Esposa(o)',required=False)
-    cdmx      = forms.BooleanField(label='CDMX',required=False)
+    # cdmx      = forms.BooleanField(label='CDMX',required=False)
     # opciones para el select de status
     status_opcion = (
         ('1','No Autorizado'),
@@ -22,5 +22,5 @@ class DirectorioForm(forms.ModelForm):
             'direccion',
             'telefono',
             'status',
-            'cdmx',
+            # 'cdmx',
         ]

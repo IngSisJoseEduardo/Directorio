@@ -27,7 +27,6 @@ class Directorio(models.Model):
 
     def get_detail_path(self):
         return reverse("directorio:detail_dir",kwargs = {'id':self.id})
-
     
 
 class Obsequio(models.Model):

@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserLoginForm, UserRegisterForm
 from django.http import HttpResponse, HttpResponseRedirect
+from directorio.models import Directorio
 
 
 def login_view(request):
@@ -82,28 +83,36 @@ def logout_view(request):
     logout(request)
     return redirect('accounts:login')
 
-
-from docx import Document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt
-from docx.shared import Inches
-
 def word(request):
-    document = Document()
-    tabla = document.add_table(1,3)
-    columnas = tabla.columns
-    columnas[0].width = 540000
+    from directorio.models import Directorio
+    num_personas = Directorio.objects.all().filter(status__exact="2").count()
+    personas = Directorio.objects.all().filter(status__exact="2")
+    con1 = []
+    con2 = []
+    rango  = 0
+    x = 0
+    while x < num_personas:
+        if (x%2==0):
+            con1.append(personas[x])
+        else:
+            con2.append(personas[x])
+        x =x+1
 
+    from templated_docs import fill_template
+    from templated_docs.http import FileResponse
+    from directorio.models import Directorio
+    if len(con1) > len(con2):
+        rango = len(con1)
+    else:
+        rango = len(con2)
+    context = {
+        'rango': range(rango),
+        # 'personas': personas,
+        'con1' : con1,
+        'con2'  : con2
+    }
 
-    encabezado_celdas = tabla.rows[0].cells
-    encabezado_celdas[0].text = "No."
-    encabezado_celdas[1].text = "Segunda Celda"
-    encabezado_celdas[2].text = "Tercera Celda"
+    filename = fill_template('etiquetas.odt', context, output_format='docx')
+    visible_filename = 'greeting.docx'
 
-
-
-    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=acuses.docx'
-    document.save(response)
-
-    return response
+    return FileResponse(filename, visible_filename)
