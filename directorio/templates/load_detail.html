@@ -1,14 +1,29 @@
 {% block content %}
 <div class="row">
-    <div class="col m4">
+    <div class="col m12">
+        <h6 id="mensaje-añadir"></h6>
+    </div>
+    <div class="col m3">
         <a href='{% url "directorio:edit_dir" persona.id %}' class="btn blue darken-4">Editar</a>
     </div>
     {% if persona.status != "1" %}
-    <div class="col m4">
+    <div class="col m3">
         <a href='{% url "directorio:doc" persona.id%}' class="btn ">Acuse</a>
     </div>
     {% endif %}
-    <div class="col m4">
+    <div class="col m3">
+        <div id="accion">
+            
+        </div>
+        {% if not persona.lista %}
+            <a href='javascript:agregar("{% url "directorio:agregar" persona.id %}")' class="btn" id="btn-agregar">añadir</a>
+        {% else %}
+            {% if persona.user_id == user.id %}
+                <a href='javascript:quitar("{% url "directorio:quitar" persona.id %}")' class="btn" id="btn-quitar">Quitar</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="col m3">
         <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn red darken-4">Eliminar</a>
     </div>
     <div class="col m12" style="text-align:center; font-size: 12px;">

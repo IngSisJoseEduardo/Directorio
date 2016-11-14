@@ -61,7 +61,7 @@ def create_directorio(request):
 
 @login_required
 def milista_dir(request):
-    lista = Directorio.objects.filter(user_id__exact= request.user.id).order_by("nombre")
+    lista = Directorio.objects.filter(user_id__exact= request.user.id).order_by("id")
 
     query = request.GET.get("q")
 
@@ -158,10 +158,41 @@ def informacion(request):
     return render(request,"informacion.html",contexto)
 
 @login_required
+def informacion2(request):
+    instancia  = Obsequio.objects.get(default = True)
+    entregados = Directorio.objects.filter(status__exact = 3).count()
+    autorizados = Directorio.objects.filter(status__exact = 2).count()
+
+    contexto= {
+        "obsequio" : instancia,
+        "entregados" : entregados,
+        "autorizados" : autorizados
+    }
+
+    return render(request,"informacion.html",contexto)
+
+@login_required
 def eliminado(request):
     return render(request,"eliminado.html")
 
+def agregar_mi_lista(request,id = None):
+    instancia = get_object_or_404(Directorio, id = id)
+    instancia.user_id = request.user.id
+    instancia.lista = True
+    instancia.save()
+
+    return HttpResponse("se añadio correctamente")
+
+def quitar_mi_lista(request, id = None):
+    instancia = get_object_or_404(Directorio, id = id)
+    instancia.lista = False
+    instancia.user_id = None
+    instancia.save()
+
+    return HttpResponse("!Ya no estara en tu lista¡")
+
 #Configuracion y perfil de usuario
+
 def config_user(request):
     return render(request,"configuracion_user.html")
 

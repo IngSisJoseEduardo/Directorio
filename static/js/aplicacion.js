@@ -56,5 +56,29 @@ function detalle(ruta){
                 $('#preview-detalle').html(a);
         }
        });
-    console.log("ajax")
+    console.log("ajax");
+}
+
+function agregar(ruta){
+    $.ajax({
+        type: "GET",
+        url: ruta,
+        success: function(a){
+            $('#mensaje-añadir').html(a);
+            $('#btn-agregar').hide();
+            // $("#accion").html('<a href="javascript:void();" class="btn">Quitar<a>')            
+        }
+    });
+    console.log("añadir");
+}
+function quitar(ruta){
+    $.ajax({
+        type :"GET",
+        url : ruta,
+        success : function(a){
+            $('#mensaje-añadir').html(a);
+            $("#btn-quitar").hide();
+            // $('#accion').html('<a href="javascript:void();" class = "btn">Añadir</a>');
+        }
+    });
 }

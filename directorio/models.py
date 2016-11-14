@@ -15,6 +15,8 @@ class Directorio(models.Model):
     status     = models.CharField(max_length=1,default='1')
     modificado = models.CharField(max_length=150,null=True,blank=True)
     cdmx       = models.BooleanField(default=False)
+    num        = models.CharField(max_length=4)
+    lista      = models.BooleanField(default=False)
 
 
 

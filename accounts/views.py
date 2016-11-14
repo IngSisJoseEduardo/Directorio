@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserLoginForm, UserRegisterForm
 from django.http import HttpResponse, HttpResponseRedirect
-from directorio.models import Directorio
 
 
 def login_view(request):
@@ -101,15 +100,15 @@ def word(request):
     from templated_docs import fill_template
     from templated_docs.http import FileResponse
     from directorio.models import Directorio
-    if len(con1) > len(con2):
-        rango = len(con1)
-    else:
-        rango = len(con2)
+    # if len(con1) > len(con2):
+    #     rango = len(con1)
+    # else:
+    #     rango = len(con2)
     context = {
-        'rango': range(rango),
-        # 'personas': personas,
-        'con1' : con1,
-        'con2'  : con2
+        'rango': range(num_personas),
+        'personas': personas,
+        # 'con1' : con1,
+        # 'con2'  : con2
     }
 
     filename = fill_template('etiquetas.odt', context, output_format='docx')

@@ -20,8 +20,10 @@ urlpatterns = [
     url(r'^acuses_generales/$',views.acuses_generales,name='acuses_generales'),
     url(r'^generar_acuses_directorio',views.seleccionar_acuses_directorio, name = "seleccion_gral_dir"),
     url(r'^(?P<id>\d+)/load_detail/$',views.load_detail, name ="load_detail"),
-    url(r'^informacion/$',views.informacion, name = "informacion"),
+    url(r'^informacion/$',views.informacion2, name = "informacion"),
     url(r'^eliminado/$',views.eliminado, name = 'eliminado'),
+    url(r'^agregar/(?P<id>\d+)/',views.agregar_mi_lista, name = "agregar"),
+    url(r'^quitar/(?P<id>\d+)/',views.quitar_mi_lista, name = "quitar"),
 
     #configurcion y perfil del usuario
     url(r'^perfil/$',views.config_user, name = "user_perfil"),
