@@ -6,9 +6,11 @@ from django.contrib.auth import (
 
     )
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserLoginForm, UserRegisterForm
 from django.http import HttpResponse, HttpResponseRedirect
+
 
 
 def login_view(request):
@@ -49,6 +51,8 @@ def register_view(request):
         "title" : title
     }
     return render(request,"form.html",contexto)
+
+@login_required
 def update_user(request, id = None):
     user_perfil = get_object_or_404(User,id = id)
     if request.POST:
@@ -84,31 +88,48 @@ def logout_view(request):
 
 def word(request):
     from directorio.models import Directorio
+    # contando los autorizados
     num_personas = Directorio.objects.all().filter(status__exact="2").count()
+    # obteniendo los acuses autorizados
     personas = Directorio.objects.all().filter(status__exact="2")
+
+    # creando directorio falso para completar
+    blanco = Directorio()
+    blanco.profesion = "-"
+    blanco.nombre = "-"
+    blanco.cargo = "-"
+    blanco.direccion = "-"
+    blanco.pareja = "-"
     con1 = []
     con2 = []
     rango  = 0
-    x = 0
-    while x < num_personas:
-        if (x%2==0):
-            con1.append(personas[x])
-        else:
-            con2.append(personas[x])
-        x =x+1
 
+    if num_personas != 1:
+        x = 0
+        while x < num_personas:
+            if (x%2==0):
+                con1.append(personas[x])
+            else:
+                con2.append(personas[x])
+            x =x+1
+        if len(con1) != len(con2):
+            if len(con1) > len(con2):
+                con2.append(blanco)
+            elif len(con2) > len(con1):
+                con1.append(blanco)
+    else:
+        con1.append(personas[0])
+        con2.append(blanco)
+        
     from templated_docs import fill_template
     from templated_docs.http import FileResponse
     from directorio.models import Directorio
-    # if len(con1) > len(con2):
-    #     rango = len(con1)
-    # else:
-    #     rango = len(con2)
+
     context = {
-        'rango': range(num_personas),
-        'personas': personas,
-        # 'con1' : con1,
-        # 'con2'  : con2
+        'rango': range(len(con1)),
+        # 'personas': personas,
+        'con1' : con1,
+        'con2'  : con2
     }
 
     filename = fill_template('etiquetas.odt', context, output_format='docx')
