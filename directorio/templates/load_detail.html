@@ -3,28 +3,31 @@
     <div class="col m12">
         <h6 id="mensaje-añadir"></h6>
     </div>
-    <div class="col m3">
-        <a href='{% url "directorio:edit_dir" persona.id %}' class="btn blue darken-4">Editar</a>
+    <div class="col m2">
+        <a href='{% url "directorio:edit_dir" persona.id %}' class="btn blue darken-4"><i class="material-icons">mode_edit</i></a>
     </div>
     {% if persona.status != "1" %}
     <div class="col m3">
-        <a href='{% url "directorio:doc" persona.id%}' class="btn ">Acuse</a>
+        <a href='{% url "directorio:doc" persona.id%}' class="btn deep-purple">Acuse</a>
+    </div>
+    <div class="col m3">
+        <a href='{% url "directorio:una_etiqueta" persona.id %}' class="btn amber">Etiqueta</a>
     </div>
     {% endif %}
-    <div class="col m3">
+    <div class="col m2">
         <div id="accion">
             
         </div>
         {% if not persona.lista %}
-            <a href='javascript:agregar("{% url "directorio:agregar" persona.id %}")' class="btn" id="btn-agregar">añadir</a>
+            <a href='javascript:agregar("{% url "directorio:agregar" persona.id %}")' class="btn green accent-4" id="btn-agregar"><i class="material-icons">add</i></a>
         {% else %}
             {% if persona.user_id == user.id %}
-                <a href='javascript:quitar("{% url "directorio:quitar" persona.id %}")' class="btn" id="btn-quitar">Quitar</a>
+                <a href='javascript:quitar("{% url "directorio:quitar" persona.id %}")' class="btn green accent-4" id="btn-quitar"><i class="material-icons">remove</i></a>
             {% endif %}
         {% endif %}
     </div>
-    <div class="col m3">
-        <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn red darken-4">Eliminar</a>
+    <div class="col m2">
+        <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn red darken-4"><i class="material-icons">clear</i></a>
     </div>
     <div class="col m12" style="text-align:center; font-size: 12px;">
         <h4 align="center">{{persona.profesion}} {{persona.nombre}}</h4>

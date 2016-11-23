@@ -32,4 +32,9 @@ urlpatterns = [
     # Vistas de acuse
     url(r'^editar_acuse/$',views.editar_acuse, name = 'editar_acuse'),
     url(r'^ver_acuse/$',views.ver_acuse,name = 'ver_acuse'),
+
+    #vistas de etiquetas
+    url(r'^(?P<id>\d+)/etiqueta/$',views.una_etiqueta, name = "una_etiqueta"),
+    url(r'^all_etiquetas/$',views.all_etiquetas, name ="all_etiquetas"),
+    url(r'^mis_etiquetas',views.mis_etiquetas, name = "mis_etiquetas"),
 ]

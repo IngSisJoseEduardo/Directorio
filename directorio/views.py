@@ -1,8 +1,15 @@
+#python-docx
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
 from docx.shared import Inches
 
+#template-docx
+from templated_docs import fill_template
+from templated_docs.http import FileResponse
+from directorio.models import Directorio
+
+#django
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -314,7 +321,7 @@ def crear_mi_lista(request):
 
 
 def crear_mis_acuses(request):
-    mis_acuses = Directorio.objects.filter(user_id__exact=request.user.id).exclude(status__exact=1)
+    mis_acuses = Directorio.objects.filter(user_id__exact=request.user.id).filter(status__exact = 2)
 
     document = Document()
 
@@ -354,6 +361,124 @@ def acuses_generales(request):
     document.save(response)
     return response 
 
+def mis_etiquetas(request):
+    personas = Directorio.objects.filter(user_id__exact = request.user.id).filter(status__exact = 2)
+    num_etiquetas = Directorio.objects.filter(user_id__exact = request.user.id).filter(status__exact = 2).count()
+    blanco = Directorio()
+    blanco.profesion = "-"
+    blanco.nombre = "-"
+    blanco.cargo = "-"
+    blanco.direccion = "-"
+    blanco.pareja = "-"
+    con1 = []
+    con2 = []
+    rango  = 0
+
+    if num_etiquetas != 1:
+        x = 0
+        while x < num_etiquetas:
+            if (x%2==0):
+                con1.append(personas[x])
+            else:
+                con2.append(personas[x])
+            x =x+1
+        if len(con1) != len(con2):
+            if len(con1) > len(con2):
+                con2.append(blanco)
+            elif len(con2) > len(con1):
+                con1.append(blanco)
+    else:
+        con1.append(personas[0])
+        con2.append(blanco)
+        
+    from templated_docs import fill_template
+    from templated_docs.http import FileResponse
+
+    context = {
+        'rango': range(len(con1)),
+        # 'personas': personas,
+        'con1' : con1,
+        'con2'  : con2
+    }
+
+    filename = fill_template('etiquetas.odt', context, output_format='docx')
+    visible_filename = 'mis_etiquetas.docx'
+
+    return FileResponse(filename, visible_filename)
+
+def una_etiqueta(request,id = None):
+    instancia = get_object_or_404(Directorio, id = id)
+    blanco = Directorio()
+    blanco.profesion = "-"
+    blanco.nombre = "-"
+    blanco.cargo = "-"
+    blanco.cireccion = "-"
+    blanco.pareja = "-"
+    con1 = []
+    con2 = []
+
+    con1.append(instancia)
+    con2.append(blanco)
+
+    contexto = {
+        "rango" : range(1),
+        "con1" : con1,
+        "con2" : con2
+    }
+
+    filename = fill_template('etiquetas.odt', contexto, output_format='docx')
+    visible_filename = 'etiqueta_%s.docx'%instancia.nombre
+
+    return FileResponse(filename, visible_filename)
+
+def all_etiquetas(request):
+    # contando los autorizados
+    num_personas = Directorio.objects.all().filter(status__exact="2").count()
+    # obteniendo los acuses autorizados
+    personas = Directorio.objects.all().filter(status__exact="2")
+
+    # creando directorio falso para completar
+    blanco = Directorio()
+    blanco.profesion = "-"
+    blanco.nombre = "-"
+    blanco.cargo = "-"
+    blanco.direccion = "-"
+    blanco.pareja = "-"
+    con1 = []
+    con2 = []
+    rango  = 0
+
+    if num_personas != 1:
+        x = 0
+        while x < num_personas:
+            if (x%2==0):
+                con1.append(personas[x])
+            else:
+                con2.append(personas[x])
+            x =x+1
+        if len(con1) != len(con2):
+            if len(con1) > len(con2):
+                con2.append(blanco)
+            elif len(con2) > len(con1):
+                con1.append(blanco)
+    else:
+        con1.append(personas[0])
+        con2.append(blanco)
+        
+    from templated_docs import fill_template
+    from templated_docs.http import FileResponse
+
+    context = {
+        'rango': range(len(con1)),
+        # 'personas': personas,
+        'con1' : con1,
+        'con2'  : con2
+    }
+
+    filename = fill_template('etiquetas.odt', context, output_format='docx')
+    visible_filename = 'todas_las_etiquetas.docx'
+
+    return FileResponse(filename, visible_filename)
 
 # cuerpo del aacuse, recibiendo por parametro el objeto document y los datos de la persona
 def acuse(document, persona):
@@ -433,6 +558,6 @@ def acuse(document, persona):
     p6Format.space_before = Pt(0)
     p6Format.space_after = Pt(0)
     p6Format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    f6 = p6.add_run('nombre, firma y fecha').font
+    f6 = p6.add_run('Nombre, firma y fecha').font
     f6.name = 'Arial'
     f6.size = Pt(12)

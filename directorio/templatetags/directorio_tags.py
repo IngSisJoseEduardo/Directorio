@@ -5,12 +5,12 @@ from django import template
 register = template.Library()
 
 @register.simple_tag
-def dir_profesion(directorio, i):
-    return ("%s")%directorio[i].profesion
-
-@register.simple_tag
 def dir_nombre(directorio, i):
-    value = directorio[i].nombre
+    value = ""
+    if directorio[i].profesion:
+        value += directorio[i].profesion
+    if directorio[i].nombre:
+        value += directorio[i].nombre
     if directorio[i].pareja:
         value+="\ny "
         value+= directorio[i].pareja
@@ -22,7 +22,7 @@ def dir_etiqueta(directorio, i):
     if directorio[i].cargo:
         value+= directorio[i].cargo
         value+= "\n"
-    if directorio[i].cargo != None:
+    if directorio[i].direccion:
         value += directorio[i].direccion
     return wordlinebreaks(value)
 
