@@ -9,14 +9,14 @@
             <div class="col m3">
                 <a href='{% url "directorio:edit_dir" persona.id %}' class="btn blue darken-4">Editar</a>
             </div>
-            {% if persona.status != "1" %}
+            <!--{% if persona.status != "1" %}
             <div class="col m3">
                 <a href='{% url "directorio:doc" persona.id%}' class="btn ">Acuse</a>
             </div>
             <div class="col m3">
                 <a href='{% url "directorio:una_etiqueta" persona.id %}' class="btn amber">Etiqueta</a>
             </div>
-            {% endif %}
+            {% endif %}-->
             <div class="col m3">
                 <a href='{% url "directorio:confirm_dir" persona.id%}' class="btn red darken-4">Eliminar</a>
             </div>
