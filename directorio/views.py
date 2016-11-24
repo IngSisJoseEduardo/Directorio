@@ -380,7 +380,7 @@ def seleccionar_acuses_directorio(request):
             }
 
             filename = fill_template('etiquetas.odt', context, output_format='docx')
-            visible_filename = 'mis_etiquetas.docx'
+            visible_filename = 'etiquetas.docx'
 
             return FileResponse(filename, visible_filename)  
 

@@ -1,7 +1,7 @@
 {% block content %}
 <div class="row">
     <div class="col m12">
-        <h6 id="mensaje-añadir"></h6>
+        <h5 id="mensaje-añadir" class="green-text text-darken-2"></h5>
     </div>
     <div class="col m2">
         <a href='{% url "directorio:edit_dir" persona.id %}' class="btn blue darken-4"><i class="material-icons">mode_edit</i></a>
@@ -38,7 +38,7 @@
                             <th>Cargo:</th><td>{{persona.cargo | linebreaks}}</td>
                         </tr>
                         <tr>
-                            <th>Direccion:</th><td>{{persona.direccion |linebreaks}}</td>
+                            <th>Dirección:</th><td>{{persona.direccion |linebreaks}}</td>
                         </tr>
                         <tr>
                             <th>Telefono:</th><td>{{persona.telefono}}</td>
