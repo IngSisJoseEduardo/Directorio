@@ -7,6 +7,8 @@ from docx.shared import Inches
 #template-docx
 from templated_docs import fill_template
 from templated_docs.http import FileResponse
+
+#modelos
 from directorio.models import Directorio
 
 #django
@@ -235,20 +237,69 @@ def seleccionar_acuses_mi_lista(request):
     invocador = "milista"
 
     if request.POST:
-        acuses = request.POST.getlist("acuses")
-        document = Document()
+        if request.POST.get("tipo") == "acus":
+            acuses = request.POST.getlist("acuses")
+            document = Document()
 
-        for x in acuses:
-            # print(x)
-            persona = get_object_or_404(Directorio, id= x)
-            acuse(document,persona)
-            document.add_page_break()
+            for x in acuses:
+                persona = get_object_or_404(Directorio, id= x)
+                acuse(document,persona)
+                document.add_page_break()
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
-        document.save(response)
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = 'attachment; filename=acuses.docx'
+            document.save(response)
+            return response
 
-        return response
+        elif request.POST.get("tipo") == "eti":
+            etiquetas = request.POST.getlist("acuses")
+            personas = []
+            num_etiquetas = len(etiquetas)
+            print(num_etiquetas)
+            print(etiquetas)
+
+            for i in etiquetas:
+                personas.append(Directorio.objects.get(id = i))
+
+            blanco = Directorio()
+            blanco.profesion = "-"
+            blanco.nombre = "-"
+            blanco.cargo = "-"
+            blanco.direccion = "-"
+            blanco.pareja = "-"
+            con1 = []
+            con2 = []
+            rango  = 0
+
+            if num_etiquetas != 1:
+                x = 0
+                while x < num_etiquetas:
+                    if (x%2==0):
+                        con1.append(personas[x])
+                    else:
+                        con2.append(personas[x])
+                    x =x+1
+                if len(con1) != len(con2):
+                    if len(con1) > len(con2):
+                        con2.append(blanco)
+                    elif len(con2) > len(con1):
+                        con1.append(blanco)
+            else:
+                con1.append(personas[0])
+                con2.append(blanco)
+
+            context = {
+                'rango': range(len(con1)),
+                # 'personas': personas,
+                'con1' : con1,
+                'con2'  : con2
+            }
+
+            filename = fill_template('etiquetas.odt', context, output_format='docx')
+            visible_filename = 'mis_etiquetas.docx'
+
+            return FileResponse(filename, visible_filename)
+
 
     contexto = {
         "instancias" : instancias,
@@ -267,21 +318,71 @@ def seleccionar_acuses_directorio(request):
     invocador = "directorio"
 
     if request.POST:
-        acuses = request.POST.getlist("acuses")
+        if request.POST.get("tipo") == "acus":
+            acuses = request.POST.getlist("acuses")
 
-        document = Document()
+            document = Document()
 
-        for x in acuses:
-            # print(x)
-            persona = get_object_or_404(Directorio, id= x)
-            acuse(document,persona)
-            document.add_page_break()
+            for x in acuses:
+                # print(x)
+                persona = get_object_or_404(Directorio, id= x)
+                acuse(document,persona)
+                document.add_page_break()
 
-        response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Disposition'] = 'attachment; filename=acuses.docx'
-        document.save(response)
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = 'attachment; filename=acuses.docx'
+            document.save(response)
 
-        return response
+            return response
+
+        elif request.POST.get("tipo") == "eti":
+            etiquetas = request.POST.getlist("acuses")
+            personas = []
+            num_etiquetas = len(etiquetas)
+            print(num_etiquetas)
+            print(etiquetas)
+
+            for i in etiquetas:
+                personas.append(Directorio.objects.get(id = i))
+
+            blanco = Directorio()
+            blanco.profesion = "-"
+            blanco.nombre = "-"
+            blanco.cargo = "-"
+            blanco.direccion = "-"
+            blanco.pareja = "-"
+            con1 = []
+            con2 = []
+            rango  = 0
+
+            if num_etiquetas != 1:
+                x = 0
+                while x < num_etiquetas:
+                    if (x%2==0):
+                        con1.append(personas[x])
+                    else:
+                        con2.append(personas[x])
+                    x =x+1
+                if len(con1) != len(con2):
+                    if len(con1) > len(con2):
+                        con2.append(blanco)
+                    elif len(con2) > len(con1):
+                        con1.append(blanco)
+            else:
+                con1.append(personas[0])
+                con2.append(blanco)
+
+            context = {
+                'rango': range(len(con1)),
+                # 'personas': personas,
+                'con1' : con1,
+                'con2'  : con2
+            }
+
+            filename = fill_template('etiquetas.odt', context, output_format='docx')
+            visible_filename = 'mis_etiquetas.docx'
+
+            return FileResponse(filename, visible_filename)  
 
 
     contexto = {
@@ -300,21 +401,21 @@ def un_acuse(request,id = None):
     acuse(document,persona)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=download.docx'
+    response['Content-Disposition'] = 'attachment; filename=acuse_%s.docx'%persona.nombre
     document.save(response)
 
     return response
 
 def crear_mi_lista(request):
     instancias = Directorio.objects.filter(user_id__exact = request.user.id)
-    # instancias = instancias.filter(status__exact = 2)
+    instancias = instancias.filter(status__exact = 2)
     document =Document()
 
     for persona in instancias:
         document.add_paragraph("%s%s"%(persona.profesion,persona.nombre))
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=lista.docx'
+    response['Content-Disposition'] = 'attachment; filename=mi_lista.docx'
     document.save(response)
 
     return response
@@ -330,7 +431,7 @@ def crear_mis_acuses(request):
         document.add_page_break()
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=lista.docx'
+    response['Content-Disposition'] = 'attachment; filename=mis_acuses.docx'
     document.save(response)
     return response
 
@@ -342,13 +443,13 @@ def crear_lista_general(request):
         document.add_paragraph("%s%s"%(persona.profesion,persona.nombre))
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=lista.docx'
+    response['Content-Disposition'] = 'attachment; filename=directorio.docx'
     document.save(response)
 
     return response
 
 def acuses_generales(request):
-    acuses = Directorio.objects.all().exclude(status__exact=1)
+    acuses = Directorio.objects.all().filter(status__exact=2)
 
     document = Document()
 
@@ -357,7 +458,7 @@ def acuses_generales(request):
         document.add_page_break()
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=lista.docx'
+    response['Content-Disposition'] = 'attachment; filename=acuses.docx'
     document.save(response)
     return response 
 
@@ -390,9 +491,6 @@ def mis_etiquetas(request):
     else:
         con1.append(personas[0])
         con2.append(blanco)
-        
-    from templated_docs import fill_template
-    from templated_docs.http import FileResponse
 
     context = {
         'rango': range(len(con1)),
@@ -464,9 +562,6 @@ def all_etiquetas(request):
     else:
         con1.append(personas[0])
         con2.append(blanco)
-        
-    from templated_docs import fill_template
-    from templated_docs.http import FileResponse
 
     context = {
         'rango': range(len(con1)),

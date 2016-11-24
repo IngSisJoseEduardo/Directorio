@@ -46,6 +46,7 @@ $('.searchable').multiSelect({
     });
 });
 
+
 //funciones
 function detalle(ruta){
     // $('#preview-detalle').load(ruta);
@@ -81,4 +82,14 @@ function quitar(ruta){
             // $('#accion').html('<a href="javascript:void();" class = "btn">Añadir</a>');
         }
     });
+}
+
+function acuses_mi_lista(ruta,tipo){
+    $('#tipo').val("acus");
+    $('#form_multiple').submit();
+}
+
+function etiquetas_mi_lista(){
+    $('#tipo').val("eti");
+    $('#form_multiple').submit();   
 }
