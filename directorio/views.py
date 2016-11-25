@@ -396,13 +396,13 @@ def seleccionar_acuses_directorio(request):
 
 def un_acuse(request,id = None):
     persona = get_object_or_404(Directorio, id = id)
-    document = Document()  
+    documento = Document()  
     
-    acuse(document,persona)
+    acuse(documento,persona)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=acuse_%s.docx'%persona.nombre
-    document.save(response)
+    response['Content-Disposition'] = 'attachment; filename=acuse.docx'
+    documento.save(response)
 
     return response
 
@@ -525,7 +525,7 @@ def una_etiqueta(request,id = None):
     }
 
     filename = fill_template('etiquetas.odt', contexto, output_format='docx')
-    visible_filename = 'etiqueta_%s.docx'%instancia.nombre
+    visible_filename = 'etiqueta.docx'
 
     return FileResponse(filename, visible_filename)
 
