@@ -16,6 +16,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 
 #Modelos
 from directorio.models import Directorio, Obsequio, Acuse, Historial
@@ -30,11 +31,13 @@ def home(request):
 
     query = request.GET.get("q")
     if query:
-        instancias = instancias.filter(nombre__icontains = query)
+        instancias = instancias.filter(Q(nombre__icontains = query) |
+                                        Q(cargo__icontains = query) )
+                                        # Q(direccion__icontains = query))
 
     contexto ={
         "directorio" : instancias,
-        "rango": range(10),
+        # "rango": range(10),
     }
     return render(request,'home.html', contexto)
 
