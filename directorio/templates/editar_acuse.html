@@ -15,8 +15,14 @@
                     <div class="input-field" >
                         <form action="" method="POST">
                         {% csrf_token %}
+                        <div class="input-field">
+                            <label for="alias">Alias</label>
+                            <input type="text" name="alias" id="alias" value="{{acuse.alias}}">  
+                        </div>
+                        <div class="input-field">
                             <label for="contenido">Contenido</label>
                             <textarea class="materialize-textarea" name="contenido">{{acuse.contenido}}</textarea>
+                        </div>
                             <button type="submit" class="btn waves-effect waves-light">
                                 Guardar Cambios
                                 <i class="material-icons right">send</i>

@@ -78,7 +78,8 @@ def milista_dir(request):
     query = request.GET.get("q")
 
     if query:
-        lista = lista.filter(nombre__icontains = query)
+        lista = lista.filter(Q(nombre__icontains = query) |
+                            Q(cargo__icontains = query))
     contexto = {
         'lista' : lista
     }
@@ -205,10 +206,20 @@ def quitar_mi_lista(request, id = None):
 
 #Configuracion y perfil de usuario
 
+@login_required
 def config_user(request):
     return render(request,"configuracion_user.html")
 
 # CRUD de Acuse
+@login_required
+def acuses_lista(request):
+    instancias = Acuse.objects.all()
+    contexto = {
+        "acuses" : instancias
+    }
+    return render(request,"acuses.html",contexto)
+
+@login_required
 def ver_acuse(request):
     instancia = Acuse.objects.get(default=True)
     contexto = {
@@ -216,11 +227,23 @@ def ver_acuse(request):
         "llamado":"ver" 
     }
     return render(request,"editar_acuse.html",contexto)
-def editar_acuse(request):
-    instancia = Acuse.objects.get(default=True)
+
+@login_required
+def nuevo_acuse(request):
+    acuse = Acuse()
+    if request.POST:
+        acuse.alias = request.POST.get("alias")
+        acuse.contenido = request.POST.get("contenido")
+        acuse.save()
+        return redirect("directorio:acuses_lista")
+    return render(request,"new_acuse.html")
+@login_required
+def editar_acuse(request, id = None):
+    instancia = Acuse.objects.get(id = id)
     if request.POST:
         if request.POST.get("contenido") != "":
             instancia.contenido = request.POST.get("contenido")
+            instancia.alias = request.POST.get("alias")
             instancia.save()
     
     contexto = {
@@ -265,11 +288,11 @@ def seleccionar_acuses_mi_lista(request):
                 personas.append(Directorio.objects.get(id = i))
 
             blanco = Directorio()
-            blanco.profesion = "-"
-            blanco.nombre = "-"
-            blanco.cargo = "-"
-            blanco.direccion = "-"
-            blanco.pareja = "-"
+            blanco.profesion = " "
+            blanco.nombre = " "
+            blanco.cargo = " "
+            blanco.direccion = " "
+            blanco.pareja = None
             con1 = []
             con2 = []
             rango  = 0
@@ -302,6 +325,17 @@ def seleccionar_acuses_mi_lista(request):
             visible_filename = 'mis_etiquetas.docx'
 
             return FileResponse(filename, visible_filename)
+
+        elif request.POST.get("tipo") == "lista":
+            documento = Document()  
+            
+            
+
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = 'attachment; filename=acuse.docx'
+            documento.save(response)
+
+            return response
 
 
     contexto = {
@@ -349,11 +383,11 @@ def seleccionar_acuses_directorio(request):
                 personas.append(Directorio.objects.get(id = i))
 
             blanco = Directorio()
-            blanco.profesion = "-"
-            blanco.nombre = "-"
-            blanco.cargo = "-"
-            blanco.direccion = "-"
-            blanco.pareja = "-"
+            blanco.profesion = " "
+            blanco.nombre = " "
+            blanco.cargo = " "
+            blanco.direccion = " "
+            blanco.pareja = None
             con1 = []
             con2 = []
             rango  = 0
@@ -469,11 +503,11 @@ def mis_etiquetas(request):
     personas = Directorio.objects.filter(user_id__exact = request.user.id).filter(status__exact = 2)
     num_etiquetas = Directorio.objects.filter(user_id__exact = request.user.id).filter(status__exact = 2).count()
     blanco = Directorio()
-    blanco.profesion = "-"
-    blanco.nombre = "-"
-    blanco.cargo = "-"
-    blanco.direccion = "-"
-    blanco.pareja = "-"
+    blanco.profesion = " "
+    blanco.nombre = " "
+    blanco.cargo = " "
+    blanco.direccion = " "
+    blanco.pareja = None
     con1 = []
     con2 = []
     rango  = 0
@@ -510,11 +544,11 @@ def mis_etiquetas(request):
 def una_etiqueta(request,id = None):
     instancia = get_object_or_404(Directorio, id = id)
     blanco = Directorio()
-    blanco.profesion = "-"
-    blanco.nombre = "-"
-    blanco.cargo = "-"
-    blanco.cireccion = "-"
-    blanco.pareja = "-"
+    blanco.profesion = " "
+    blanco.nombre = " "
+    blanco.cargo = " "
+    blanco.cireccion = " "
+    blanco.pareja = None
     con1 = []
     con2 = []
 
@@ -540,11 +574,11 @@ def all_etiquetas(request):
 
     # creando directorio falso para completar
     blanco = Directorio()
-    blanco.profesion = "-"
-    blanco.nombre = "-"
-    blanco.cargo = "-"
-    blanco.direccion = "-"
-    blanco.pareja = "-"
+    blanco.profesion = " "
+    blanco.nombre = " "
+    blanco.cargo = " "
+    blanco.direccion = " "
+    blanco.pareja = None
     con1 = []
     con2 = []
     rango  = 0
@@ -634,7 +668,7 @@ def acuse(document, persona):
     p4Format.space_after = Pt(0)
     p4Format.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
     p4Format.first_line_indent = Inches(0.50)
-    f4 = p4.add_run(acuse_contenido).font
+    f4 = p4.add_run(persona.acuse.contenido).font
     f4.name = 'Arial'
     f4.size = Pt(12)
 

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+    | Acuses
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col m8 offset-m2">
+            <table>
+                <thead>
+                    <tr><th>Alias</th><th>contenido</th></tr>
+                </thead>
+                <tbody>
+                    {% for acuse in acuses %}
+                        <tr><td style="width: 40%;">{{acuse.alias}}</td><td><a href='{% url "directorio:editar_acuse" acuse.id %}'>{{acuse.contenido}}</a></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

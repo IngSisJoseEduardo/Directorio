@@ -3,6 +3,20 @@ from django.db import models
 from django.core.urlresolvers import reverse
 
 
+class Acuse(models.Model):
+    alias      = models.CharField(max_length=150, null=True)
+    contenido  = models.TextField()
+    update     = models.DateTimeField(auto_now=True,auto_now_add=False)
+    timestamps = models.DateTimeField(auto_now=False,auto_now_add=True)
+    default    = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = "Acuse"
+        verbose_name_plural = "Acuses"
+
+    def __str__(self):
+        return self.alias
+
 # Create your models here.
 class Directorio(models.Model):
     profesion  = models.CharField(max_length=50,null=True,blank=True)
@@ -17,7 +31,7 @@ class Directorio(models.Model):
     cdmx       = models.BooleanField(default=False)
     num        = models.CharField(max_length=4)
     lista      = models.BooleanField(default=False)
-
+    acuse      = models.ForeignKey(Acuse, null=True)
 
 
     class Meta:
@@ -58,17 +72,4 @@ class Historial(models.Model):
     def __str__(self):
         return self.directorio.nombre
 
-class Acuse(models.Model):
-    contenido  = models.TextField()
-    update     = models.DateTimeField(auto_now=True,auto_now_add=False)
-    timestamps = models.DateTimeField(auto_now=False,auto_now_add=True)
-    obsequio   = models.OneToOneField(Obsequio)
-    default     = models.BooleanField(default=False)
-
-    class Meta:
-        verbose_name = "Acuse"
-        verbose_name_plural = "Acuses"
-
-    def __str__(self):
-        return self.contenido
     

@@ -93,3 +93,8 @@ function etiquetas_mi_lista(){
     $('#tipo').val("eti");
     $('#form_multiple').submit();   
 }
+
+function lista_mi_lista(){
+    $('#tipo').val("lista");
+    $('#form_multiple').submit();   
+}

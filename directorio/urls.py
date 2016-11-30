@@ -29,8 +29,11 @@ urlpatterns = [
     url(r'^perfil/$',views.config_user, name = "user_perfil"),
     url(r'^perfil/(?P<id>\d+)/config',update_user, name = "config_perfil"),
     url(r'^perfil/(?P<id>\d+)/password', edit_password, name = "edit_password"),
+    
     # Vistas de acuse
-    url(r'^editar_acuse/$',views.editar_acuse, name = 'editar_acuse'),
+    url(r'^acuses/$',views.acuses_lista, name = "acuses_lista"),
+    url(r'^nuevo/acuse',views.nuevo_acuse, name ="nuevo_acuse"),
+    url(r'^(?P<id>\d+)/editar_acuse/$',views.editar_acuse, name = 'editar_acuse'),
     url(r'^ver_acuse/$',views.ver_acuse,name = 'ver_acuse'),
 
     #vistas de etiquetas

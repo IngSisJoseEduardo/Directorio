@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    nuevo acuse
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col m6 offset-m3">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="input-field">
+                    <label for="alias">Alias</label> 
+                    <input type="text" name="alias" id="alias">
+                </div>
+                <div class="input-field">
+                    <label for="contenido">Contenido</label> 
+                    <textarea name="contenido" id="contenido" class="materialize-textarea"></textarea> 
+                </div>
+                <button type="submit" class="btn waves-effect waves-light">
+                    Guardar
+                    <i class="material-icons right">send</i>
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

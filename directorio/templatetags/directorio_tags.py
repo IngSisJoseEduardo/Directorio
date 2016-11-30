@@ -9,9 +9,10 @@ def dir_nombre(directorio, i):
     value = ""
     if directorio[i].profesion:
         value += directorio[i].profesion
+        value += " "
     if directorio[i].nombre:
         value += directorio[i].nombre
-    if directorio[i].pareja:
+    if directorio[i].pareja and directorio[i].pareja != "":
         value+="\ny "
         value+= directorio[i].pareja
     return wordlinebreaks(value)
