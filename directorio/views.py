@@ -52,16 +52,16 @@ def create_directorio(request):
         instancia.save()
         status = instancia.status
 
-        if status == "3":
-            obseq = Obsequio.objects.get(default = True)
-            obseq.existencia = obseq.existencia-1
-            obseq.entregado = obseq.entregado+1
-            obseq.save()
+        # if status == "3":
+        #     obseq = Obsequio.objects.get(default = True)
+        #     obseq.existencia = obseq.existencia-1
+        #     obseq.entregado = obseq.entregado+1
+        #     obseq.save()
 
-            historial = Historial()
-            historial.directorio_id = instancia.id
-            historial.obsequio_id = obseq.id
-            historial.save()
+        #     historial = Historial()
+        #     historial.directorio_id = instancia.id
+        #     historial.obsequio_id = obseq.id
+        #     historial.save()
         messages.success(request,"!Registrado Correctamente¡")
         return HttpResponseRedirect(instancia.get_detail_path())
 
@@ -98,23 +98,23 @@ def edit_directorio(request, id = None):
         if instancia.user_id != request.user.id:
             instancia.modificado = request.user.username
         # instancia.user = request.user
-        if instancia.status != "3" and pstatus == "3":
-            obs.existencia = obs.existencia+1
-            obs.entregado = obs.entregado-1
-            obs.save()
+        # if instancia.status != "3" and pstatus == "3":
+        #     obs.existencia = obs.existencia+1
+        #     obs.entregado = obs.entregado-1
+        #     obs.save()
 
-            delhistorial = Historial.objects.filter(directorio_id__exact = persona.id).filter(obsequio_id__exact=obs.id)
-            delhistorial.delete()
+        #     delhistorial = Historial.objects.filter(directorio_id__exact = persona.id).filter(obsequio_id__exact=obs.id)
+        #     delhistorial.delete()
             
-        elif instancia.status == "3":
-            obs.existencia = obs.existencia-1
-            obs.entregado = obs.entregado+1
-            obs.save()
+        # elif instancia.status == "3":
+        #     obs.existencia = obs.existencia-1
+        #     obs.entregado = obs.entregado+1
+        #     obs.save()
 
-            historial = Historial()
-            historial.directorio_id = persona.id
-            historial.obsequio_id = obs.id
-            historial.save()
+        #     historial = Historial()
+        #     historial.directorio_id = persona.id
+        #     historial.obsequio_id = obs.id
+        #     historial.save()
         instancia.save()
         messages.success(request,"!Modificado correctamente¡")
         return HttpResponseRedirect(instancia.get_detail_path())
