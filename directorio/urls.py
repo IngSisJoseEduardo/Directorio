@@ -40,4 +40,10 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/etiqueta/$',views.una_etiqueta, name = "una_etiqueta"),
     url(r'^all_etiquetas/$',views.all_etiquetas, name ="all_etiquetas"),
     url(r'^mis_etiquetas',views.mis_etiquetas, name = "mis_etiquetas"),
+
+    #control de llibros
+    url(r'^obsequios/$',views.control_obsequios, name ="control_obsequios"),
+    url(r'^nuevo/obsequio$',views.new_obsequio, name = "new_obsequio"),
+    url(r'^editar/obsequio/(?P<id>\d+)$',views.editar_obsequio, name = "editar_obsequio"),
+    url(r'^agregar/entregados',views.agregar_entregados, name = "agregar_entregados"),
 ]

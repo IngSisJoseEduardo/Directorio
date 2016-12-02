@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Control de libros
+{% endblock title %}
+
+{% block content %}
+    
+    <div class="container">
+        <div class="row">
+            <h4>Info de Obsequios</h4>
+            <div class="col m2 input-field">
+                <a href="#" class="btn">Reporte</a>
+            </div>
+            <form id="form_agregar">
+            {% csrf_token %}
+                <div class="col m6">
+                        
+                    <select name="libro" id="libro">
+                        <option value="0">Selecciona un obsequio</option>
+                        {% for obsequio in  obsequios %}
+                            <option value="{{obsequio.id}}">{{obsequio.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col m2">
+                    <input type="number" name="cantidad" id="cantidad" min="0" placeholder="0">
+                </div>
+                <div class="col m2 input-field ">
+                    <a href='javascript:agregar_entregados("{% url "directorio:agregar_entregados" %}")' class="btn light-blue darken-3">Guardar</a>
+                </div>
+            </form>
+            <div class="col m12" id="infomensaje" style="text-align: center;">
+                <!--aqui va el mesaje de operacion-->
+            </div>
+            <div class="col m12" id="tabla_obsequio">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Cantidad Inicial</th>
+                            <th>Entregados</th>
+                            <th>Existencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for obsequio in obsequios %}
+                        <tr>
+                            <td><a href='{% url "directorio:editar_obsequio" obsequio.id %}'> {{obsequio.nombre}}</a></td>
+                            <td>{{obsequio.cantidad}}</td>
+                            <td>{{obsequio.entregado}}</td>
+                            <td>{{obsequio.existencia}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

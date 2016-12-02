@@ -1,0 +1,20 @@
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Cantidad Inicial</th>
+            <th>Entregados</th>
+            <th>Existencia</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for obsequio in obsequios %}
+        <tr>
+            <td><a href='{% url "directorio:editar_obsequio" obsequio.id %}'> {{obsequio.nombre}}</a></td>
+            <td>{{obsequio.cantidad}}</td>
+            <td>{{obsequio.entregado}}</td>
+            <td>{{obsequio.existencia}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

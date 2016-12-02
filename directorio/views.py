@@ -22,7 +22,7 @@ from django.db.models import Q
 from directorio.models import Directorio, Obsequio, Acuse, Historial
 
 #Formularios
-from directorio.forms import DirectorioForm
+from directorio.forms import DirectorioForm, ObsequioForm
 
 # CRUD Directorio
 @login_required
@@ -376,8 +376,8 @@ def seleccionar_acuses_directorio(request):
             etiquetas = request.POST.getlist("acuses")
             personas = []
             num_etiquetas = len(etiquetas)
-            print(num_etiquetas)
-            print(etiquetas)
+            # print(num_etiquetas)
+            # print(etiquetas)
 
             for i in etiquetas:
                 personas.append(Directorio.objects.get(id = i))
@@ -420,6 +420,23 @@ def seleccionar_acuses_directorio(request):
             visible_filename = 'etiquetas.docx'
 
             return FileResponse(filename, visible_filename)  
+
+        elif request.POST.get("tipo") == "lista":
+            lista = request.POST.getlist("acuses")
+            document = Document()
+            personas = []
+
+            for y in lista:
+                personas.append(Directorio.objects.get(id = y))
+            
+            for x in personas:
+                document.add_paragraph(x.profesion+" "+x.nombre, style='ListNumber')
+
+            response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Disposition'] = 'attachment; filename=lista.docx'
+            document.save(response)
+
+            return response
 
 
     contexto = {
@@ -611,6 +628,61 @@ def all_etiquetas(request):
     visible_filename = 'todas_las_etiquetas.docx'
 
     return FileResponse(filename, visible_filename)
+
+
+#modulo de obsequios
+def control_obsequios(request):
+    instancias = Obsequio.objects.all()
+    contexto = {
+        "obsequios": instancias
+    }
+    return render(request,"control_obsequios.html",contexto)
+
+def new_obsequio(request):
+    form = ObsequioForm(request.POST or None)
+
+    if form.is_valid():
+        instancia = form.save(commit =False)
+        instancia.save()
+        return redirect("directorio:control_obsequios")
+    contexto = {
+        "form": form,
+    }
+
+    return render(request,"new_obsequio.html",contexto)
+
+def editar_obsequio(request, id = None):
+    obsequio = get_object_or_404(Obsequio, id = id)
+
+    form = ObsequioForm(request.POST or None, instance = obsequio)
+
+    if form.is_valid():
+        instancia = form.save(commit=False)
+        instancia.save()
+
+        return redirect("directorio:control_obsequios")
+    contexto = {
+        "form" : form
+    }
+
+    return render(request,"new_obsequio.html",contexto)
+
+def agregar_entregados(request):
+    cantidad = int(request.POST.get("cantidad"))
+    if request.POST:
+        instancia = Obsequio.objects.get(id = request.POST.get("libro"))
+        instancia.entregado = instancia.entregado+cantidad
+        instancia.existencia = instancia.existencia-cantidad
+        instancia.save()
+
+        instancias = Obsequio.objects.all()
+        contexto = {
+            "obsequios": instancias
+        }
+        return render(request,"tabla_obsequios.html",contexto)
+    return raise404
+
+
 
 # cuerpo del aacuse, recibiendo por parametro el objeto document y los datos de la persona
 def acuse(document, persona):

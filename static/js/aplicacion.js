@@ -98,3 +98,27 @@ function lista_mi_lista(){
     $('#tipo').val("lista");
     $('#form_multiple').submit();   
 }
+
+function agregar_entregados(ruta){
+    libro = $("#libro").val();
+    cantidad = $("#cantidad").val();
+    datos = $("#form_agregar").serialize();
+    if (libro != 0 && cantidad != 0) {
+        $.ajax({
+            type: "POST",
+            url: ruta,
+            data: datos,
+            success: function(a) {
+                    obs = $('#libro option:selected').text()
+                    $('#tabla_obsequio').html(a);
+                    $('#cantidad').val(0)
+                    $("#infomensaje").html("<h5 style = 'color:green;'>!Información de "+obs+" actualizada¡</h5>")
+                    
+            }
+           });
+    }
+    else{
+        $("#infomensaje").html("<h5 style = 'color:red;'>!Selecciona un Obsequio y pon una cantidad¡</h5>")
+    }   
+     
+}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load materializecss %}
+{% block title %}
+    Nuevo Obsequio
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col m6 offset-m3">
+            <form action="" method="POST">
+            {% csrf_token %}
+                {{form|materializecss}}
+                <input type="submit" value="Guardar">  
+            </form>
+        </div>
+    </div>
+{% endblock content %}

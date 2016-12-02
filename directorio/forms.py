@@ -1,5 +1,5 @@
 from django import forms
-from directorio.models import Directorio
+from directorio.models import Directorio, Obsequio
 
 class DirectorioForm(forms.ModelForm):
     profesion = forms.CharField(max_length=50,label='Profesión',required=False)
@@ -26,3 +26,12 @@ class DirectorioForm(forms.ModelForm):
             'status',
             # 'cdmx',
         ]
+
+class ObsequioForm(forms.ModelForm):
+    class Meta:
+        model = Obsequio
+        fields = ['nombre',
+                  'cantidad',
+                  'entregado',
+                  'existencia',]
+    

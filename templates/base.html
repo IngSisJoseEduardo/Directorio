@@ -60,7 +60,17 @@
             </ul>
                   
           </li>
-          {# <li>Recursos</li> #}
+          {% if request.user.is_superuser %}
+            <li>
+              <a class='dropdown-button' href='#' data-activates='dropdown5'>Obsequios<i class="material-icons right">arrow_drop_down</i></a>
+              
+              <!-- Dropdown Structure -->
+              <ul id='dropdown5' class='dropdown-content '>
+                <li><a href='{% url "directorio:control_obsequios" %}'>Ver</a></li>
+                <li><a href='{% url "directorio:new_obsequio" %}'>Nuevo</a></li>
+              </ul>
+            </li>
+          {% endif %}
 
         </ul>
         <ul class="right hide-on-med-and-down">
