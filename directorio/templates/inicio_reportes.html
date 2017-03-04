@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}
+    | Reportes
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h3>Reportes</h3>
+        <div>
+        <form action="" method="POST" id="form-reportes">
+            {% csrf_token %}
+            <input type="hidden" name="tipo" id="tipo">
+            <a href='javascript:lista_entregados_word();' class="btn">Relacion de Entregados</a>
+            <a href='javascript:lista_pendientes_word()' class="btn">Relacion de Autorizados</a>
+        </form> 
+        </div>
+    </div>
+{% endblock content %}

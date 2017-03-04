@@ -27,22 +27,34 @@ from directorio.forms import DirectorioForm, ObsequioForm
 # CRUD Directorio
 @login_required
 def home(request):
+    """ 
+        se requeire sesion iniciada
+
+        Se realiza la consulta de todo el directorio(todas las personas que conforman el directorio)
+        , si se llega a este punto con un parametro de busuqeda, se filtra la busqeda total, para mostrar
+        las coincidencias(contenidas en la columnas profesion, nombre y cargo).
+    """
     instancias = Directorio.objects.all().order_by("id")
 
     query = request.GET.get("q")
     if query:
-        instancias = instancias.filter(Q(nombre__icontains = query) |
+        instancias = instancias.filter(Q(profesion__icontains = query)|
+                                        Q(nombre__icontains = query) |
                                         Q(cargo__icontains = query) )
-                                        # Q(direccion__icontains = query))
 
     contexto ={
         "directorio" : instancias,
-        # "rango": range(10),
     }
     return render(request,'home.html', contexto)
 
 @login_required
 def create_directorio(request):
+    """
+        se requeire sesion iniciada
+
+        Creacion del formulario, para el registro de una nueva persona,
+        se valida la informacion y se envia un mensaje de alerta.
+    """
     title = ""
     form = DirectorioForm(request.POST or None)
 
@@ -51,17 +63,6 @@ def create_directorio(request):
         instancia.user = request.user
         instancia.save()
         status = instancia.status
-
-        # if status == "3":
-        #     obseq = Obsequio.objects.get(default = True)
-        #     obseq.existencia = obseq.existencia-1
-        #     obseq.entregado = obseq.entregado+1
-        #     obseq.save()
-
-        #     historial = Historial()
-        #     historial.directorio_id = instancia.id
-        #     historial.obsequio_id = obseq.id
-        #     historial.save()
         messages.success(request,"!Registrado Correctamente¡")
         return HttpResponseRedirect(instancia.get_detail_path())
 
@@ -73,12 +74,20 @@ def create_directorio(request):
 
 @login_required
 def milista_dir(request):
+    """
+    se requeire sesion iniciada
+
+    se realiza la consulta de todas las personas que conforman la lista que crea el usuario, en su sesión
+    , si se llega a este punto con un parametro de busqeuda, se filtra la lista y se muestran las
+    coincidencias.
+    """
     lista = Directorio.objects.filter(user_id__exact= request.user.id).order_by("id")
 
     query = request.GET.get("q")
 
     if query:
-        lista = lista.filter(Q(nombre__icontains = query) |
+        lista = lista.filter(Q(profesion__icontains = query)|
+                            Q(nombre__icontains = query) |
                             Q(cargo__icontains = query))
     contexto = {
         'lista' : lista
@@ -87,9 +96,15 @@ def milista_dir(request):
 
 @login_required
 def edit_directorio(request, id = None):
+    """
+        se requeire sesion iniciada
+
+        esta vsta pide un ID de parametro, para realizar la busqueda, de la persona
+        a ediar, posteriormente se crea el formulario con los datos a mostrar, se valida la informacion
+        y se envia un mensjae de alerta.
+    """
     persona = get_object_or_404(Directorio,id = id)
     pstatus = persona.status
-    obs     = Obsequio.objects.get(default=True)
     title   = "Editando a: \r %s"%persona.nombre
     form    = DirectorioForm(request.POST or None,instance = persona)
     
@@ -97,24 +112,7 @@ def edit_directorio(request, id = None):
         instancia = form.save(commit = False)
         if instancia.user_id != request.user.id:
             instancia.modificado = request.user.username
-        # instancia.user = request.user
-        # if instancia.status != "3" and pstatus == "3":
-        #     obs.existencia = obs.existencia+1
-        #     obs.entregado = obs.entregado-1
-        #     obs.save()
 
-        #     delhistorial = Historial.objects.filter(directorio_id__exact = persona.id).filter(obsequio_id__exact=obs.id)
-        #     delhistorial.delete()
-            
-        # elif instancia.status == "3":
-        #     obs.existencia = obs.existencia-1
-        #     obs.entregado = obs.entregado+1
-        #     obs.save()
-
-        #     historial = Historial()
-        #     historial.directorio_id = persona.id
-        #     historial.obsequio_id = obs.id
-        #     historial.save()
         instancia.save()
         messages.success(request,"!Modificado correctamente¡")
         return HttpResponseRedirect(instancia.get_detail_path())
@@ -127,6 +125,12 @@ def edit_directorio(request, id = None):
 
 @login_required
 def detail_directorio(request, id = None):
+    """
+        se reqeuire sesion iniciada
+
+        Requeire un parametro ID para realizar la busqeuda de los detalles a mostrar de la
+        persona
+    """
     instancia = get_object_or_404(Directorio, id = id)
     contexto = {
         "title": "Detalles",
@@ -137,6 +141,12 @@ def detail_directorio(request, id = None):
 
 @login_required
 def confirm_delete_directorio(request,id = None):
+    """
+        se requiere sesion iniciada
+
+        REquiere un parametro ID para realizar de la busqeda de la persona
+        y mostrar los detalles antes de eliminar
+    """
     instancia = get_object_or_404(Directorio, id = id)
     contexto = {
         "persona" : instancia,
@@ -145,12 +155,24 @@ def confirm_delete_directorio(request,id = None):
 
 @login_required
 def delete_directorio(request, id=None ):
+    """
+        Se requiere sesion inicida
+
+        requeire un parametro ID para realizar la eliminacion de
+        de la persona seleccionada
+    """
     instancia = get_object_or_404(Directorio, id= id)
     instancia.delete()
     return redirect('directorio:eliminado')
 
 @login_required
 def load_detail(request, id = None):
+    """
+    requeire sesion iniciada
+
+    requiere un parametro ID, para mostrar los datos de una persona,
+    contenido que se mostrara por AJAX jquery
+    """
     instancia = get_object_or_404(Directorio, id = id)
     contexto = {
         "persona" : instancia
@@ -159,7 +181,9 @@ def load_detail(request, id = None):
 
 @login_required
 def informacion(request):
-    # instancia  = get_object_or_404(Obsequio, id = 1)
+    """ 
+    No esta en funcionamiento en la aplicación
+    """
     instancia  = Obsequio.objects.get(default = True)
     entregados = instancia.entregado #Directorio.objects.filter(status__exact = 3).count()
     existencia = instancia.existencia
@@ -172,6 +196,11 @@ def informacion(request):
 
 @login_required
 def informacion2(request):
+    """
+        requiere sesion iniciada
+
+        Muestra el total de personas autorizadas y entregadas
+    """
     instancia  = Obsequio.objects.get(default = True)
     entregados = Directorio.objects.filter(status__exact = 3).count()
     autorizados = Directorio.objects.filter(status__exact = 2).count()
@@ -186,9 +215,20 @@ def informacion2(request):
 
 @login_required
 def eliminado(request):
+    """
+    Requiere secion iniciada
+
+    Simplemente renderiza un template con mesaje de eliminado
+    """
     return render(request,"eliminado.html")
 
+
 def agregar_mi_lista(request,id = None):
+    """
+    Requiere un parametro ID, obtiene la persona indicada, para poder editar el user_id
+    el cual sirve para que el usuario, pueda crear un alista con la cual trabajara. Esta accion se realiza a travez
+    de AJAX jquery.
+    """
     instancia = get_object_or_404(Directorio, id = id)
     instancia.user_id = request.user.id
     instancia.lista = True
@@ -197,6 +237,11 @@ def agregar_mi_lista(request,id = None):
     return HttpResponse("se añadio correctamente")
 
 def quitar_mi_lista(request, id = None):
+    """
+    reqeuire un parametro ID, para relizar la busqueda de la persona,
+    y poder modificar el user_id. El usuario podra reducir su lista de trabajo. Esta accion se
+    realiza atravez de AJAX Jquery.
+    """
     instancia = get_object_or_404(Directorio, id = id)
     instancia.lista = False
     instancia.user_id = None
@@ -213,6 +258,10 @@ def config_user(request):
 # CRUD de Acuse
 @login_required
 def acuses_lista(request):
+    """
+        requiere sesion iniciada
+        Realiza la busqueda de todos los acuses, y los muestra en lista
+    """
     instancias = Acuse.objects.all()
     contexto = {
         "acuses" : instancias
@@ -221,6 +270,9 @@ def acuses_lista(request):
 
 @login_required
 def ver_acuse(request):
+    """
+    No esta en funcionamiento
+    """
     instancia = Acuse.objects.get(default=True)
     contexto = {
         "acuse": instancia,
@@ -230,6 +282,11 @@ def ver_acuse(request):
 
 @login_required
 def nuevo_acuse(request):
+    """
+    requiere secion inicida
+
+    Crea un nuevo acuse, obteniendo los datos de formulario
+    """
     acuse = Acuse()
     if request.POST:
         acuse.alias = request.POST.get("alias")
@@ -239,6 +296,12 @@ def nuevo_acuse(request):
     return render(request,"new_acuse.html")
 @login_required
 def editar_acuse(request, id = None):
+    """
+    requiere secion inicida
+
+    REquiere un parametro ID para realizar la busqeuda de acuse,
+    y poder editar los datos, obtenidos del fromulario
+    """
     instancia = Acuse.objects.get(id = id)
     if request.POST:
         if request.POST.get("contenido") != "":
@@ -252,10 +315,53 @@ def editar_acuse(request, id = None):
     }
     return render(request,"editar_acuse.html",contexto)
 
+# vista de reportes
+@login_required
+def inicio_reportes(request):
+
+    if request.POST:
+        if request.POST.get("tipo") == "entregado":
+            """
+                Crea una relacion de las personas a las que se le entrego obsequio
+            """
+            instancias = Directorio.objects.filter(status__exact = 3)
+            documento = Document()
+            documento.add_paragraph("Relacion de Entregados")
+            return crear_lista(documento,instancias)
+        elif request.POST.get("tipo") == "pendiente":
+            documento = Document()
+            documento.add_paragraph("Relacacion de Autorizados")
+            instancias = Directorio.objects.filter(status__exact = 2)
+            return crear_lista(documento,instancias)            
+
+    return render(request,"inicio_reportes.html")
+# funcion para crear lista
+def crear_lista(documento,instancias):
+
+    for persona in instancias:
+        documento.add_paragraph("%s%s"%(persona.profesion,persona.nombre), style='ListNumber')
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+    response['Content-Disposition'] = 'attachment; filename=relacion_entregados.docx'
+    documento.save(response)
+
+    return response
 
 # Vistas que generan un archivo de WORD
 @login_required
 def seleccionar_acuses_mi_lista(request):
+    """
+    require sescion iniciada
+    Lista creada por el usuario.
+    muestra la lista de personas que han sido autorizadas y entregadas
+    en el template hay tres opciones
+    acuses:
+        esta opcion crea un archivo de word con los acuses de las personas seleccioandas
+    etiquetas:
+        esta opcion crea unarchivo de word con las etiquetas de las personas seleccioandas
+    lista:
+        esta opción genera un archivo de word con el nombre de las personas seleccionadas
+    """
     instancias = Directorio.objects.filter(user_id__exact = request.user.id).exclude(status__exact=1)
 
     mensaje = "Selecciona los acuses de tu lista"
@@ -347,7 +453,19 @@ def seleccionar_acuses_mi_lista(request):
 
 @login_required
 def seleccionar_acuses_directorio(request):
-    
+    """
+    require sescion iniciada
+
+    Lista general de personas
+    muestra la lista de personas que han sido autorizadas y entregadas
+    en el template hay tres opciones
+    acuses:
+        esta opcion crea un archivo de word con los acuses de las personas seleccioandas
+    etiquetas:
+        esta opcion crea unarchivo de word con las etiquetas de las personas seleccioandas
+    lista:
+        esta opción genera un archivo de word con el nombre de las personas seleccionadas
+    """
     instancias = Directorio.objects.all().exclude(status__exact = 1)
 
     mensaje = "*Aqui podras seleccionar los acuses que han sido autorizados en todo el directorio"
@@ -449,6 +567,10 @@ def seleccionar_acuses_directorio(request):
 
 
 def un_acuse(request,id = None):
+    """
+    requiere un prametro ID para realizar busqeuda de la persona,
+    y poder crear el acuse con los datos de la misma.
+    """
     persona = get_object_or_404(Directorio, id = id)
     documento = Document()  
     
@@ -461,6 +583,9 @@ def un_acuse(request,id = None):
     return response
 
 def crear_mi_lista(request):
+    """
+        Esta opcion crea la lista de las personas, de cda usuario
+    """
     instancias = Directorio.objects.filter(user_id__exact = request.user.id)
     instancias = instancias.filter(status__exact = 2)
     document =Document()
@@ -476,6 +601,9 @@ def crear_mi_lista(request):
 
 
 def crear_mis_acuses(request):
+    """
+    Esta opcion crea los acuses de las personas autorizadas en la lista de cada usuario
+    """
     mis_acuses = Directorio.objects.filter(user_id__exact=request.user.id).filter(status__exact = 2)
 
     document = Document()
@@ -490,6 +618,9 @@ def crear_mis_acuses(request):
     return response
 
 def crear_lista_general(request):
+    """
+        esta opcion crea la lista general en un archiv de word solo nombres
+    """
     instancias = Directorio.objects.all()
     document =Document()
 
@@ -503,6 +634,10 @@ def crear_lista_general(request):
     return response
 
 def acuses_generales(request):
+
+    """
+    esta opcion crea un archivo de word con todos los acuses que se han autorizado en el directorio
+    """
     acuses = Directorio.objects.all().filter(status__exact=2)
 
     document = Document()

@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^acuses/$',views.acuses_lista, name = "acuses_lista"),
     url(r'^nuevo/acuse',views.nuevo_acuse, name ="nuevo_acuse"),
     url(r'^(?P<id>\d+)/editar_acuse/$',views.editar_acuse, name = 'editar_acuse'),
-    url(r'^ver_acuse/$',views.ver_acuse,name = 'ver_acuse'),
+    # url(r'^ver_acuse/$',views.ver_acuse,name = 'ver_acuse'),
 
     #vistas de etiquetas
     url(r'^(?P<id>\d+)/etiqueta/$',views.una_etiqueta, name = "una_etiqueta"),
@@ -46,4 +46,7 @@ urlpatterns = [
     url(r'^nuevo/obsequio$',views.new_obsequio, name = "new_obsequio"),
     url(r'^editar/obsequio/(?P<id>\d+)$',views.editar_obsequio, name = "editar_obsequio"),
     url(r'^agregar/entregados',views.agregar_entregados, name = "agregar_entregados"),
+
+    #reportes
+    url(r'^reportes/$',views.inicio_reportes, name = 'inicio_reportes'),
 ]
