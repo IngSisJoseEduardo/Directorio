@@ -131,3 +131,7 @@ function lista_pendientes_word(){
     $('#tipo').val("pendiente");
     $('#form-reportes').submit();
 }
+function lista_no_autorizados(){
+    $('#tipo').val("noautorizado");
+    $('#form-reportes').submit();
+}

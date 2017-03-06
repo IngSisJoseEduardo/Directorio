@@ -318,6 +318,10 @@ def editar_acuse(request, id = None):
 # vista de reportes
 @login_required
 def inicio_reportes(request):
+    """
+        crea una lista segun el boton indicado, relacionde de todos los entregados, relacion de los autorizados
+        ,relacion de los no autorizados, relacion de cada acuse.
+    """
 
     if request.POST:
         if request.POST.get("tipo") == "entregado":
@@ -328,10 +332,22 @@ def inicio_reportes(request):
             documento = Document()
             documento.add_paragraph("Relacion de Entregados")
             return crear_lista(documento,instancias)
+
         elif request.POST.get("tipo") == "pendiente":
+            """
+                crea la relacion de la sspersonas que solo estan autorizadas pero no sel eha entregado aobsequio
+            """
             documento = Document()
             documento.add_paragraph("Relacacion de Autorizados")
             instancias = Directorio.objects.filter(status__exact = 2)
+            return crear_lista(documento,instancias)
+        elif request.POST.get("tipo") == "noautorizado":
+            """
+                crea la relacion de las personas que no se les autorio obsequio
+            """
+            documento =Document()
+            documento.add_paragraph("Relacion de los No Autoriados")
+            instancias = Directorio.objects.filter(status__exact = 1)
             return crear_lista(documento,instancias)            
 
     return render(request,"inicio_reportes.html")
@@ -652,6 +668,9 @@ def acuses_generales(request):
     return response 
 
 def mis_etiquetas(request):
+    """
+    
+    """
     personas = Directorio.objects.filter(user_id__exact = request.user.id).filter(status__exact = 2)
     num_etiquetas = Directorio.objects.filter(user_id__exact = request.user.id).filter(status__exact = 2).count()
     blanco = Directorio()
